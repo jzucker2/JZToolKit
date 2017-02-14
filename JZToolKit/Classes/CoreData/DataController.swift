@@ -79,22 +79,31 @@ public class DataController: NSObject {
     
     // MARK: - Core Data Saving support
     
-    public func save(context: NSManagedObjectContext? = nil) {
+    // MARK: - Core Data Saving support
+    // if context is nil, then viewContext is used
+    // for completion: context saved, true for saved, and false for no save, error if there is one
+    public func save(context: NSManagedObjectContext? = nil, completion: ((NSManagedObjectContext, Bool, Error?) -> Void)? = nil) {
         var context = context
         if context == nil {
             context = viewContext
         }
-        let savingContext = context!
-        if savingContext.hasChanges {
-            savingContext.perform {
+        let existingContext = context!
+        existingContext.perform {
+            // we can forcibly unwrap because we know the context is not nil
+            let existingContext = context!
+            if existingContext.hasChanges {
                 do {
-                    try savingContext.save()
+                    try existingContext.save()
+                    completion?(existingContext, true, nil)
                 } catch {
                     // Replace this implementation with code to handle the error appropriately.
                     // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
+                    completion?(existingContext, false, error)
                     fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
+            } else {
+                completion?(existingContext, false, nil)
             }
         }
     }
