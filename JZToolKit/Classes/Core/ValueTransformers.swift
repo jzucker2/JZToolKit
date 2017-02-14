@@ -36,3 +36,29 @@ public class ImageToDataTransformer: ValueTransformer {
     }
     
 }
+
+class URLToStringTransformer: ValueTransformer {
+    
+    class override func allowsReverseTransformation() -> Bool {
+        return true
+    }
+    
+    class override func transformedValueClass() -> Swift.AnyClass {
+        return NSString.self
+    }
+    
+    override func transformedValue(_ value: Any?) -> Any? {
+        guard let url = value as? NSURL else {
+            fatalError("can only handle NSURL, not: \(value.debugDescription)")
+        }
+        return url.absoluteString
+    }
+    
+    override func reverseTransformedValue(_ value: Any?) -> Any? {
+        guard let urlString = value as? String else {
+            fatalError("can only handle String, not: \(value.debugDescription)")
+        }
+        return NSURL(string: urlString)
+    }
+    
+}

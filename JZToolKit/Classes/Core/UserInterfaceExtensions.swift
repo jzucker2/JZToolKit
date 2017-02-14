@@ -24,6 +24,14 @@ public extension UIImage {
     }
 }
 
+extension UIControl {
+    func removeAllTargets() {
+        self.allTargets.forEach { (target) in
+            self.removeTarget(target, action: nil, for: .allEvents)
+        }
+    }
+}
+
 public extension UIView {
     
     static func reuseIdentifier() -> String {
