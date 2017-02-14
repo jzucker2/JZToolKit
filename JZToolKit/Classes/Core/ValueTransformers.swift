@@ -9,17 +9,17 @@
 import UIKit
 
 @objc(ImageToDataTransformer)
-class ImageToDataTransformer: ValueTransformer {
+public class ImageToDataTransformer: ValueTransformer {
     
-    class override func allowsReverseTransformation() -> Bool {
+    public class override func allowsReverseTransformation() -> Bool {
         return true
     }
     
-    class override func transformedValueClass() -> Swift.AnyClass {
+    public class override func transformedValueClass() -> Swift.AnyClass {
         return NSData.self
     }
     
-    override func transformedValue(_ value: Any?) -> Any? {
+    public override func transformedValue(_ value: Any?) -> Any? {
         guard let image = value as? UIImage else {
             fatalError("can only handle UIImage, not: \(value.debugDescription)")
         }
@@ -27,7 +27,7 @@ class ImageToDataTransformer: ValueTransformer {
         return data
     }
     
-    override func reverseTransformedValue(_ value: Any?) -> Any? {
+    override public func reverseTransformedValue(_ value: Any?) -> Any? {
         guard let data = value as? Data else {
             fatalError("can only handle Data, not: \(value.debugDescription)")
         }

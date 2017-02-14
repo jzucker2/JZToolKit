@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JZToolKit'
-  s.version          = '0.2.0'
+  s.version          = '0.3.0'
   s.summary          = 'Tools for common Swift functions and helpers.'
 
 # This description is used to generate tags and improve search results.
@@ -30,9 +30,9 @@ going forward.
   s.source           = { :git => 'https://github.com/jzucker2/JZToolKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/jzucker'
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
 
-  s.source_files = 'JZToolKit/Classes/**/*'
+  # s.source_files = 'JZToolKit/Classes/**/*'
   
   # s.resource_bundles = {
   #   'JZToolKit' => ['JZToolKit/Assets/*.png']
@@ -40,6 +40,19 @@ going forward.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.frameworks = 'UIKit'
+  # s.frameworks = 'UIKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+
+  s.subspec 'Core' do |core|
+    core.source_files = 'JZToolKit/Classes/Core/**/*.swift'
+    core.frameworks = 'UIKit'
+  end
+
+  s.subspec 'CoreData' do |core_data|
+    core_data.source_files = 'JZToolKit/Classes/CoreData/**/*.swift'
+    core_data.frameworks = 'UIKit', 'CoreData'
+  end
+
+  # s.default_subspec = 'Core'
+
 end
