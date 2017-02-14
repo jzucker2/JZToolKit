@@ -7,15 +7,31 @@
 //
 
 import UIKit
+import JZToolKit
+
+fileprivate let InitialLaunchKey = "InitialLaunchKey"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        DataController.sharedController.delegate = self
+        if !UserDefaults.standard.bool(forKey: InitialLaunchKey) {
+            DataController.sharedController.performBackgroundTask { (context) in
+                for index in 0..<10 {
+                    let name = "Note \(index)"
+                    let text = "This is a sample of note \(index)"
+                    _ = Note.createNote(in: context, with: name, text: text)
+                }
+                DataController.sharedController.save(context: context)
+                UserDefaults.standard.set(true, forKey: InitialLaunchKey)
+            }
+        }
+        
         return true
     }
 
@@ -39,6 +55,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    // MARK: - DataControllerDelegate
+    
+    func controllerWithName(_ controller: DataController) -> String {
+        return "Example"
     }
 
 
