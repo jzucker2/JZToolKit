@@ -20,3 +20,12 @@ extension Dictionary {
         return copy
     }
 }
+
+extension String {
+    
+    var isOnlyWhiteSpace: Bool {
+        let whitespaceSet = CharacterSet.whitespaces
+        return self.trimmingCharacters(in: whitespaceSet).isEmpty
+    }
+    
+}
