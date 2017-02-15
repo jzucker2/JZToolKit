@@ -1,20 +1,41 @@
 //
-//  ViewController.swift
-//  JZToolKit
+//  CoreDataTableViewController.swift
+//  JZToolkit
 //
-//  Created by jzucker2 on 02/14/2017.
-//  Copyright (c) 2017 jzucker2. All rights reserved.
+//  Created by Jordan Zucker on 2/15/17.
+//  Copyright © 2017 CocoaPods. All rights reserved.
 //
 
 import UIKit
 import CoreData
 import JZToolKit
 
-class ViewController: UIViewController, UITableViewDataSource, NSFetchedResultsControllerDelegate {
-    
+class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+
     var tableView: UITableView!
     var fetchedResultsController: NSFetchedResultsController<Note>!
-
+    
+    required init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        let bounds = UIScreen.main.bounds
+        let loadingView = UIView(frame: bounds)
+        loadingView.backgroundColor = .white
+        self.view = loadingView
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let bounds = UIScreen.main.bounds
+        self.view.frame = bounds
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -25,8 +46,8 @@ class ViewController: UIViewController, UITableViewDataSource, NSFetchedResultsC
         tableView.sizeAndCenter(to: view)
         tableView.dataSource = self
         view.setNeedsLayout()
-        
-        navigationItem.title = "Main View"
+                
+        navigationItem.title = "Table View"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonPressed(sender:)))
         
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
@@ -40,8 +61,10 @@ class ViewController: UIViewController, UITableViewDataSource, NSFetchedResultsC
             fatalError(error.localizedDescription)
         }
         
+        view.setNeedsLayout()
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -50,12 +73,7 @@ class ViewController: UIViewController, UITableViewDataSource, NSFetchedResultsC
     // MARK: - Actions
     
     func addNoteButtonPressed(sender: UIBarButtonItem) {
-        DataController.sharedController.performBackgroundTask { (context) in
-            let newName = "Added note"
-            let newText = "Another note with same text"
-            _ = Note.createNote(in: context, with: newName, text: newText)
-            DataController.sharedController.save(context: context)
-        }
+        DataController.sharedController.saveNewNotesInBackground()
     }
     
     // MARK: - Custom
@@ -135,4 +153,3 @@ class ViewController: UIViewController, UITableViewDataSource, NSFetchedResultsC
     }
 
 }
-
