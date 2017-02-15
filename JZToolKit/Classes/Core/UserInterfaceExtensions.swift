@@ -39,6 +39,22 @@ public extension UIView {
     }
 }
 
+public extension UIDevice {
+    
+    var isIPhone: Bool {
+        return userInterfaceIdiom == .phone
+    }
+    
+    var isIPad: Bool {
+        return userInterfaceIdiom == .pad
+    }
+    
+    var isTV: Bool {
+        return userInterfaceIdiom == .tv
+    }
+    
+}
+
 public extension UIView {
     func roundCorners() {
         // There are more efficient ways to do this,
