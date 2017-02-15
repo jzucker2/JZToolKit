@@ -11,6 +11,7 @@ import CoreData
 
 @objc
 public protocol DataControllerDelegate: NSObjectProtocol {
+    @objc optional func controllerWithPersistentContainerType(_ controller: DataController) -> NSPersistentContainer.Type
     func controllerWithName(_ controller: DataController) -> String
     @objc optional func controllerWithManagedObjectModel(_ controller: DataController) -> NSManagedObjectModel
 }
@@ -33,10 +34,6 @@ public class DataController: NSObject {
         persistentContainer.performBackgroundTask(block)
     }
     
-    public class var persistentContainerType: NSPersistentContainer.Type {
-        return NSPersistentContainer.self
-    }
-    
     // MARK: - Core Data stack
     
     private lazy var persistentContainer: NSPersistentContainer = {
@@ -45,7 +42,12 @@ public class DataController: NSObject {
             fatalError("We need a name!")
         }
         let container: NSPersistentContainer
-        let containerType = type(of: self).persistentContainerType
+        let containerType: NSPersistentContainer.Type
+        if let customType = self.delegate?.controllerWithPersistentContainerType?(self) {
+            containerType = customType
+        } else {
+            containerType = NSPersistentContainer.self
+        }
         /*
          The persistent container for the application. This implementation
          creates and returns a container, having loaded the store for the
