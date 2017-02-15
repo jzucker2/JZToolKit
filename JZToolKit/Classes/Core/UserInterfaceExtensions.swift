@@ -24,7 +24,7 @@ public extension UIImage {
     }
 }
 
-extension UIControl {
+public extension UIControl {
     func removeAllTargets() {
         self.allTargets.forEach { (target) in
             self.removeTarget(target, action: nil, for: .allEvents)
