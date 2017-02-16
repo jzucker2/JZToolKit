@@ -9,4 +9,7 @@
 import UIKit
 import CoreData
 
-
+protocol CoreDataSource {
+    associatedtype ViewType
+    
+}

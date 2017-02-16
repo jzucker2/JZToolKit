@@ -140,18 +140,18 @@ public class TableViewFRCDelegate: NSObject, FRCDelegate {
     
 }
 
-extension TableViewFRCDelegate: NSFetchedResultsControllerDelegate {
-    
-    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print(#function)
-        tableView?.beginUpdates()
-    }
-    
-    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        print(#function)
-        tableView?.endUpdates()
-    }
-}
+//extension TableViewFRCDelegate: NSFetchedResultsControllerDelegate {
+//    
+//    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        print(#function)
+//        tableView?.beginUpdates()
+//    }
+//    
+//    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        print(#function)
+//        tableView?.endUpdates()
+//    }
+//}
 
 public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     
@@ -232,16 +232,3 @@ extension CollectionViewFRCDelegate {
         Change.object(indexPath, newIndexPath, type).applyChange(with: self)
     }
 }
-
-// This might not work until swift 3.1
-//extension NSFetchedResultsControllerDelegate where Self: FRCDelegate {
-//    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-//        print(#function)
-//        Change.section(sectionIndex, type).applyChange(with: self)
-//    }
-//    
-//    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        print(#function)
-//        Change.object(indexPath, newIndexPath, type).applyChange(with: self)
-//    }
-//}
