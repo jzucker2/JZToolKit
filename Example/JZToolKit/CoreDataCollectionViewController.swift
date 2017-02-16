@@ -14,6 +14,7 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
     
     var collectionView: UICollectionView!
     var fetchedResultsController: NSFetchedResultsController<Note>!
+    var frcDelegate: CollectionViewFRCDelegate!
     
     required init() {
         super.init(nibName: nil, bundle: nil)
@@ -51,13 +52,16 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
         collectionView.sizeAndCenter(to: view)
         collectionView.dataSource = self
         
+        frcDelegate = CollectionViewFRCDelegate(collectionView: collectionView)
+        
         view.setNeedsLayout()
         
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
         let creationDateSortDescriptor = NSSortDescriptor(key: #keyPath(Note.creationDate), ascending: false)
         fetchRequest.sortDescriptors = [creationDateSortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataController.sharedController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
+//        fetchedResultsController.delegate = self
+        fetchedResultsController.delegate = frcDelegate
         do {
             try fetchedResultsController.performFetch()
         } catch {

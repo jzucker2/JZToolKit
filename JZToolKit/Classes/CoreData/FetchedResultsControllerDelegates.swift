@@ -12,9 +12,7 @@ import CoreData
 public typealias ConfigureCollectionViewCell = (UICollectionViewCell, IndexPath) -> ()
 public typealias ConfigureTableViewCell = (UITableViewCell, IndexPath) -> ()
 
-public protocol DynamicDisplay: NSObjectProtocol {
-    
-}
+public protocol DynamicDisplay: NSObjectProtocol { }
 
 extension UICollectionView: DynamicDisplay { }
 extension UITableView: DynamicDisplay { }
@@ -81,20 +79,6 @@ public protocol FRCDelegate: NSObjectProtocol, NSFetchedResultsControllerDelegat
     func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath)
     
 }
-
-
-
-//public class TableViewFRCDelegate: NSObject {
-//    
-//    internal weak var tableView: UITableView?
-//    private var cellConfiguration: ConfigureTableViewCell
-//    
-//    public init(tableView: UITableView, with cellConfiguration: @escaping ConfigureTableViewCell) {
-//        self.tableView = tableView
-//        self.cellConfiguration = cellConfiguration
-//    }
-//    
-//}
 
 public class TableViewFRCDelegate: NSObject, FRCDelegate {
     public typealias ViewType = UITableView
@@ -165,7 +149,7 @@ extension TableViewFRCDelegate: NSFetchedResultsControllerDelegate {
     }
 }
 
-public class CollectionViewFRCDelegate: NSObject {
+public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     
     internal weak var collectionView: UICollectionView?
     
@@ -173,11 +157,8 @@ public class CollectionViewFRCDelegate: NSObject {
         self.collectionView = collectionView
     }
     
-}
-
-extension CollectionViewFRCDelegate: FRCDelegate {
     public typealias ViewType = UICollectionView
-
+    
     public var view: UIView? {
         return collectionView
     }
@@ -218,21 +199,32 @@ extension CollectionViewFRCDelegate: FRCDelegate {
     
 }
 
-//extension FRCDelegate {
-//    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-//        print(#function)
-//        Change.section(sectionIndex, type).applyChange(with: self)
-//    }
-//    
-//    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-//        print(#function)
-//        Change.object(indexPath, newIndexPath, type).applyChange(with: self)
-//    }
-//}
+extension TableViewFRCDelegate {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        print(#function)
+        Change.section(sectionIndex, type).applyChange(with: self)
+    }
+    
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        print(#function)
+        Change.object(indexPath, newIndexPath, type).applyChange(with: self)
+    }
+}
 
+extension CollectionViewFRCDelegate {
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        print(#function)
+        Change.section(sectionIndex, type).applyChange(with: self)
+    }
+    
+    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        print(#function)
+        Change.object(indexPath, newIndexPath, type).applyChange(with: self)
+    }
+}
 
-
-//public extension NSFetchedResultsControllerDelegate where T: NSFetchedResultsController & FRCDelegate>{
+// This might not work until swift 3.1
+//extension NSFetchedResultsControllerDelegate where Self: FRCDelegate {
 //    public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
 //        print(#function)
 //        Change.section(sectionIndex, type).applyChange(with: self)
