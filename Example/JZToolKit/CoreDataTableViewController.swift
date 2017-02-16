@@ -37,9 +37,22 @@ class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFe
         self.view.frame = bounds
     }
     
+    var configureCell: ConfigureTableViewCell!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        configureCell = { (cell, indexPath) in
+            DataController.sharedController.viewContext.perform {
+                guard let noteCell = cell as? NoteTableViewCell else {
+                    fatalError()
+                }
+                let note = self.fetchedResultsController.object(at: indexPath)
+                let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
+                noteCell.update(update)
+            }
+        }
+        
         tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(NoteTableViewCell.self, forCellReuseIdentifier: NoteTableViewCell.reuseIdentifier())
         tableView.forceAutoLayout()
@@ -51,9 +64,7 @@ class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFe
         navigationItem.title = "Table View"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonPressed(sender:)))
         
-        let configureCell: ConfigureTableViewCell = { (cell, indexPath) in
-            
-        }
+        
         
         frcDelegate = TableViewFRCDelegate(tableView: tableView, with: configureCell)
         
@@ -84,19 +95,6 @@ class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFe
         DataController.sharedController.saveNewNotesInBackground()
     }
     
-    // MARK: - Custom
-    
-    func configureCell(cell: UITableViewCell, indexPath: IndexPath) {
-        DataController.sharedController.viewContext.perform {
-            guard let noteCell = cell as? NoteTableViewCell else {
-                fatalError()
-            }
-            let note = self.fetchedResultsController.object(at: indexPath)
-            let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
-            noteCell.update(update)
-        }
-    }
-    
     // MARK: - UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -116,7 +114,8 @@ class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoteTableViewCell.reuseIdentifier(), for: indexPath)
-        configureCell(cell: cell, indexPath: indexPath)
+//        configureCell(cell: cell, indexPath: indexPath)
+        configureCell(cell, indexPath)
         return cell
     }
     

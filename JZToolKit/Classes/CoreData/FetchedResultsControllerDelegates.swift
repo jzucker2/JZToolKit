@@ -88,7 +88,7 @@ public class TableViewFRCDelegate: NSObject, FRCDelegate {
     }
     
     internal weak var tableView: UITableView?
-    private var cellConfiguration: ConfigureTableViewCell
+    private let cellConfiguration: ConfigureTableViewCell
     
     public init(tableView: UITableView, with cellConfiguration: @escaping ConfigureTableViewCell) {
         self.tableView = tableView
@@ -126,7 +126,11 @@ public class TableViewFRCDelegate: NSObject, FRCDelegate {
     
     public func reloadItem(at indexPath: IndexPath) {
         print(#function)
-        tableView?.reloadRows(at: [indexPath], with: animation)
+//        tableView?.reloadRows(at: [indexPath], with: animation)
+        guard let cell = tableView?.cellForRow(at: indexPath) else {
+            return
+        }
+        cellConfiguration(cell, indexPath)
     }
     
     public func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath) {
@@ -152,8 +156,10 @@ extension TableViewFRCDelegate: NSFetchedResultsControllerDelegate {
 public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     
     internal weak var collectionView: UICollectionView?
+    private let cellConfiguration: ConfigureCollectionViewCell
     
-    public init(collectionView: UICollectionView) {
+    public init(collectionView: UICollectionView, with cellConfiguration: @escaping ConfigureCollectionViewCell) {
+        self.cellConfiguration = cellConfiguration
         self.collectionView = collectionView
     }
     
@@ -189,7 +195,11 @@ public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     
     public func reloadItem(at indexPath: IndexPath) {
         print(#function)
-        collectionView?.reloadItems(at: [indexPath])
+//        collectionView?.reloadItems(at: [indexPath])
+        guard let cell = collectionView?.cellForItem(at: indexPath) else {
+            return
+        }
+        cellConfiguration(cell, indexPath)
     }
     
     public func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath) {

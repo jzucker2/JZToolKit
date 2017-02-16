@@ -36,11 +36,33 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
         let bounds = UIScreen.main.bounds
         self.view.frame = bounds
     }
+    
+    var configureCell: ConfigureCollectionViewCell!
+//    let configureCell: ConfigureCollectionViewCell = { (cell, indexPath) in
+//        DataController.sharedController.viewContext.perform {
+//            guard let noteCell = cell as? NoteCollectionViewCell else {
+//                fatalError()
+//            }
+//            let note = self.fetchedResultsController.object(at: indexPath)
+//            let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
+//            noteCell.update(update)
+//        }
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        configureCell = { (cell, indexPath) in
+            DataController.sharedController.viewContext.perform {
+                guard let noteCell = cell as? NoteCollectionViewCell else {
+                    fatalError()
+                }
+                let note = self.fetchedResultsController.object(at: indexPath)
+                let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
+                noteCell.update(update)
+            }
+        }
         navigationItem.title = "Collection View"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonPressed(sender:)))
         
@@ -52,7 +74,17 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
         collectionView.sizeAndCenter(to: view)
         collectionView.dataSource = self
         
-        frcDelegate = CollectionViewFRCDelegate(collectionView: collectionView)
+//        let configureCell: ConfigureCollectionViewCell = { (cell, indexPath) in
+//            DataController.sharedController.viewContext.perform {
+//                guard let noteCell = cell as? NoteCollectionViewCell else {
+//                    fatalError()
+//                }
+//                let note = self.fetchedResultsController.object(at: indexPath)
+//                let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
+//                noteCell.update(update)
+//            }
+//        }
+        frcDelegate = CollectionViewFRCDelegate(collectionView: collectionView, with: configureCell)
         
         view.setNeedsLayout()
         
@@ -85,16 +117,16 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
     
     // MARK: - Custom
     
-    func configureCell(cell: UICollectionViewCell, indexPath: IndexPath) {
-        DataController.sharedController.viewContext.perform {
-            guard let noteCell = cell as? NoteCollectionViewCell else {
-                fatalError()
-            }
-            let note = self.fetchedResultsController.object(at: indexPath)
-            let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
-            noteCell.update(update)
-        }
-    }
+//    func configureCell(cell: UICollectionViewCell, indexPath: IndexPath) {
+//        DataController.sharedController.viewContext.perform {
+//            guard let noteCell = cell as? NoteCollectionViewCell else {
+//                fatalError()
+//            }
+//            let note = self.fetchedResultsController.object(at: indexPath)
+//            let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
+//            noteCell.update(update)
+//        }
+//    }
     
     // MARK: - UICollectionViewDataSource
     
@@ -115,7 +147,8 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewCell.reuseIdentifier(), for: indexPath)
-        configureCell(cell: cell, indexPath: indexPath)
+//        configureCell(cell: cell, indexPath: indexPath)
+        configureCell(cell, indexPath)
         return cell
     }
 
