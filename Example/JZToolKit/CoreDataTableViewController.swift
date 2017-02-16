@@ -14,6 +14,7 @@ class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFe
 
     var tableView: UITableView!
     var fetchedResultsController: NSFetchedResultsController<Note>!
+    var frcDelegate: TableViewFRCDelegate!
     
     required init() {
         super.init(nibName: nil, bundle: nil)
@@ -50,11 +51,18 @@ class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFe
         navigationItem.title = "Table View"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonPressed(sender:)))
         
+        let configureCell: ConfigureTableViewCell = { (cell, indexPath) in
+            
+        }
+        
+        frcDelegate = TableViewFRCDelegate(tableView: tableView, with: configureCell)
+        
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
         let creationDateSortDescriptor = NSSortDescriptor(key: #keyPath(Note.creationDate), ascending: false)
         fetchRequest.sortDescriptors = [creationDateSortDescriptor]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataController.sharedController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
+//        fetchedResultsController.delegate = self
+        fetchedResultsController.delegate = frcDelegate
         do {
             try fetchedResultsController.performFetch()
         } catch {
@@ -112,44 +120,44 @@ class CoreDataTableViewController: UIViewController, UITableViewDataSource, NSFe
         return cell
     }
     
-    // MARK: - NSFetchedResultsControllerDelegate
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-        case .move:
-            break
-        case .update:
-            break
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            let insertedIndexPath = newIndexPath!
-            tableView.insertRows(at: [insertedIndexPath], with: .automatic)
-        case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .automatic)
-        case .update:
-            guard let cell = tableView.cellForRow(at: indexPath!) else {
-                fatalError()
-            }
-            configureCell(cell: cell, indexPath: indexPath!)
-        case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
-    }
+//    // MARK: - NSFetchedResultsControllerDelegate
+//    
+//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        tableView.beginUpdates()
+//    }
+//    
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+//        switch type {
+//        case .insert:
+//            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+//        case .delete:
+//            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+//        case .move:
+//            break
+//        case .update:
+//            break
+//        }
+//    }
+//    
+//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+//        switch type {
+//        case .insert:
+//            let insertedIndexPath = newIndexPath!
+//            tableView.insertRows(at: [insertedIndexPath], with: .automatic)
+//        case .delete:
+//            tableView.deleteRows(at: [indexPath!], with: .automatic)
+//        case .update:
+//            guard let cell = tableView.cellForRow(at: indexPath!) else {
+//                fatalError()
+//            }
+//            configureCell(cell: cell, indexPath: indexPath!)
+//        case .move:
+//            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+//        }
+//    }
+//    
+//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//        tableView.endUpdates()
+//    }
 
 }
