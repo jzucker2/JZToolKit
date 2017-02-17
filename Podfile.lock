@@ -1,11 +1,9 @@
 PODS:
-  - JZToolKit (0.8.1):
-    - JZToolKit/Application (= 0.8.1)
-    - JZToolKit/Core (= 0.8.1)
-    - JZToolKit/CoreData (= 0.8.1)
-  - JZToolKit/Application (0.8.1)
-  - JZToolKit/Core (0.8.1)
-  - JZToolKit/CoreData (0.8.1)
+  - JZToolKit (0.8.3):
+    - JZToolKit/Core (= 0.8.3)
+    - JZToolKit/CoreData (= 0.8.3)
+  - JZToolKit/Core (0.8.3)
+  - JZToolKit/CoreData (0.8.3)
 
 DEPENDENCIES:
   - JZToolKit (from `.`)
@@ -15,7 +13,7 @@ EXTERNAL SOURCES:
     :path: .
 
 SPEC CHECKSUMS:
-  JZToolKit: e335d7b5ea07700b57fe34692d11502b48e56367
+  JZToolKit: 21e0813a4cef98464361eb6f1acb4f3a39149c74
 
 PODFILE CHECKSUM: 01d84017ec91b99b762912bbdab91b2fda791d03
 
