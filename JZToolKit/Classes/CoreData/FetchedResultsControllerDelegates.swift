@@ -23,39 +23,41 @@ enum Change {
     case section(Int, NSFetchedResultsChangeType)
     
     func applyChange<T: FRCDelegate>(with delegate: T) {
-        switch self {
-        case let .object(indexPath, newIndexPath, changeType):
-            switch changeType {
-            case .insert:
-                print("object insert")
-                delegate.insertItem(at: newIndexPath!)
-            case .update:
-                print("object update")
-                delegate.reloadItem(at: indexPath!)
-            case .move:
-                print("object move")
-                delegate.moveItem(at: indexPath!, to: newIndexPath!)
-            case .delete:
-                print("object delete")
-                delegate.deleteItem(at: indexPath!)
-            }
-        case let .section(sectionIndex, changeType):
-            let indexSet = IndexSet(integer: sectionIndex)
-            switch changeType {
-            case .insert:
-                print("section insert")
-                delegate.insertSections(indexSet)
-            case .update:
-                print("section update")
-                delegate.reloadSections(indexSet)
-            case .delete:
-                print("section delete")
-                delegate.deleteSections(indexSet)
-            case .move:
-                print("section move")
-                // Not something I'm worrying about right now.
-                print("Never implemented section move")
-                break
+        DispatchQueue.main.async {
+            switch self {
+            case let .object(indexPath, newIndexPath, changeType):
+                switch changeType {
+                case .insert:
+                    print("object insert")
+                    delegate.insertItem(at: newIndexPath!)
+                case .update:
+                    print("object update")
+                    delegate.reloadItem(at: indexPath!)
+                case .move:
+                    print("object move")
+                    delegate.moveItem(at: indexPath!, to: newIndexPath!)
+                case .delete:
+                    print("object delete")
+                    delegate.deleteItem(at: indexPath!)
+                }
+            case let .section(sectionIndex, changeType):
+                let indexSet = IndexSet(integer: sectionIndex)
+                switch changeType {
+                case .insert:
+                    print("section insert")
+                    delegate.insertSections(indexSet)
+                case .update:
+                    print("section update")
+                    delegate.reloadSections(indexSet)
+                case .delete:
+                    print("section delete")
+                    delegate.deleteSections(indexSet)
+                case .move:
+                    print("section move")
+                    // Not something I'm worrying about right now.
+                    print("Never implemented section move")
+                    break
+                }
             }
         }
     }
