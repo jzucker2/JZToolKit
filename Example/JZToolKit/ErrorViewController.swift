@@ -7,21 +7,35 @@
 //
 
 import UIKit
+import JZToolKit
 
-class ErrorViewController: UIViewController {
+class ErrorViewController: StackViewController {
     
-    required init() {
-        super.init(nibName: nil, bundle: nil)
-    }
+    var alertControllerErrorButton: UIButton!
+    var navControllerErrorButton: UIButton!
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func setUp(customStackView: UIStackView) {
+        customStackView.axis = .vertical
+        customStackView.alignment = .fill
+        customStackView.distribution = .fillEqually
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        navigationItem.title = "Errors"
+        alertControllerErrorButton = UIButton(type: .system)
+        alertControllerErrorButton.addTarget(self, action: #selector(alertControllerErrorButtonPressed(sender:)), for: .touchUpInside)
+        alertControllerErrorButton.setTitle("Trigger Alert Controller Error", for: .normal)
+        stackView.addArrangedSubview(alertControllerErrorButton)
+        
+        navControllerErrorButton = UIButton(type: .system)
+        navControllerErrorButton.addTarget(self, action: #selector(navControllerErrorButtonPressed(sender:)), for: .touchUpInside)
+        navControllerErrorButton.setTitle("Trigger Nav Controller Prompt Error", for: .normal)
+        stackView.addArrangedSubview(navControllerErrorButton)
+        
+        view.setNeedsLayout()        
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,15 +43,30 @@ class ErrorViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func alertControllerErrorButtonPressed(sender: UIButton) {
+        print(#function)
+        do {
+            try ErrorGenerator.generateAlertControllerError()
+        } catch let alertError as ExampleAlertControllerError {
+            if alertError == .show {
+                show(alertControllerError: alertError)
+            }
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
-    */
+    
+    func navControllerErrorButtonPressed(sender: UIButton) {
+        print(#function)
+        do {
+            try ErrorGenerator.generatePromptError()
+        } catch let promptError as ExamplePromptError {
+            if promptError == .show {
+                show(promptError: promptError)
+            }
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
 
 }

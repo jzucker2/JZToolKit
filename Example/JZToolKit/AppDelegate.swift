@@ -52,8 +52,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
         let errorNavController = UINavigationController(rootViewController: errorViewController)
         errorNavController.tabBarItem.title = "Errors"
         
+        let toolkitNavController = ToolKitViewController.embedInNavigationController()
+        toolkitNavController.tabBarItem.title = "TKVC"
+        toolkitNavController.topViewController?.view.backgroundColor = .red
+        
+        let subclassToolKitNavController = SubclassToolKitViewController.embedInNavigationController()
+        subclassToolKitNavController.tabBarItem.title = "Subclass"
+        
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController, errorNavController]
+        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController, errorNavController, toolkitNavController, subclassToolKitNavController]
         
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
