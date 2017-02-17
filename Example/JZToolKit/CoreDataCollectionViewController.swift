@@ -10,10 +10,12 @@ import UIKit
 import CoreData
 import JZToolKit
 
-class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
+class CoreDataCollectionViewController: UIViewController {
     
     var collectionView: UICollectionView!
     var fetchedResultsController: NSFetchedResultsController<Note>!
+    var frcDelegate: CollectionViewFRCDelegate!
+    var collectionViewDataSource: CollectionViewCoreDataSource<Note>!
     
     required init() {
         super.init(nibName: nil, bundle: nil)
@@ -40,6 +42,30 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        let configureCell: ConfigureCollectionViewCell = { (configuringCell, indexPath) in
+            var cell: UICollectionViewCell? = nil
+            if let actualCell = configuringCell {
+                cell = actualCell
+            } else {
+                cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewCell.reuseIdentifier(), for: indexPath)
+            }
+            DataController.sharedController.viewContext.performAndWait {
+                guard let noteCell = cell as? NoteCollectionViewCell else {
+                    fatalError()
+                }
+                let note = self.fetchedResultsController.object(at: indexPath)
+                let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
+                noteCell.update(update)
+            }
+            return cell!
+        }
+        
+        let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+        let creationDateSortDescriptor = NSSortDescriptor(key: #keyPath(Note.creationDate), ascending: false)
+        fetchRequest.sortDescriptors = [creationDateSortDescriptor]
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataController.sharedController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
         navigationItem.title = "Collection View"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonPressed(sender:)))
         
@@ -49,15 +75,14 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
         collectionView.register(NoteCollectionViewCell.self, forCellWithReuseIdentifier: NoteCollectionViewCell.reuseIdentifier())
         view.addSubview(collectionView)
         collectionView.sizeAndCenter(to: view)
-        collectionView.dataSource = self
+        collectionViewDataSource = CollectionViewCoreDataSource(collectionView: collectionView, with: fetchedResultsController, with: configureCell)
+        collectionView.dataSource = collectionViewDataSource
+        
+        frcDelegate = CollectionViewFRCDelegate(collectionView: collectionView, with: configureCell)
         
         view.setNeedsLayout()
         
-        let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
-        let creationDateSortDescriptor = NSSortDescriptor(key: #keyPath(Note.creationDate), ascending: false)
-        fetchRequest.sortDescriptors = [creationDateSortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataController.sharedController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
+        fetchedResultsController.delegate = frcDelegate
         do {
             try fetchedResultsController.performFetch()
         } catch {
@@ -77,42 +102,6 @@ class CoreDataCollectionViewController: UIViewController, UICollectionViewDataSo
     
     func addNoteButtonPressed(sender: UIBarButtonItem) {
         DataController.sharedController.saveNewNotesInBackground()
-    }
-    
-    // MARK: - Custom
-    
-    func configureCell(cell: UICollectionViewCell, indexPath: IndexPath) {
-        DataController.sharedController.viewContext.perform {
-            guard let noteCell = cell as? NoteCollectionViewCell else {
-                fatalError()
-            }
-            let note = self.fetchedResultsController.object(at: indexPath)
-            let update = NoteCellUpdate(name: note.name, creationDate: note.creationDate)
-            noteCell.update(update)
-        }
-    }
-    
-    // MARK: - UICollectionViewDataSource
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            fatalError("No sections in fetchedResultsController")
-        }
-        return sections.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            fatalError("No sections in fetchedResultsController")
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewCell.reuseIdentifier(), for: indexPath)
-        configureCell(cell: cell, indexPath: indexPath)
-        return cell
     }
 
 }
