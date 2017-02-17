@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import JZToolKit
 
-class TestCollectionViewController: UIViewController, UICollectionViewDataSource {
+class TestCollectionViewController: ToolKitViewController, UICollectionViewDataSource {
     
     struct DataSource {
         var items = [Note]()
@@ -44,26 +44,26 @@ class TestCollectionViewController: UIViewController, UICollectionViewDataSource
 
     var collectionView: UICollectionView!
     
-    required init() {
-        super.init(nibName: nil, bundle: nil)
-    }
+//    required init() {
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func loadView() {
-        let bounds = UIScreen.main.bounds
-        let loadingView = UIView(frame: bounds)
-        loadingView.backgroundColor = .white
-        self.view = loadingView
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let bounds = UIScreen.main.bounds
-        self.view.frame = bounds
-    }
+//    override func loadView() {
+//        let bounds = UIScreen.main.bounds
+//        let loadingView = UIView(frame: bounds)
+//        loadingView.backgroundColor = .white
+//        self.view = loadingView
+//    }
+//    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        let bounds = UIScreen.main.bounds
+//        self.view.frame = bounds
+//    }
     
     var dataSource = DataSource()
     
