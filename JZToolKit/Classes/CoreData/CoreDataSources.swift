@@ -32,9 +32,9 @@ open class TableViewCoreDataSource<ResultType> : NSObject, CoreDataSource, UITab
         return tableView
     }
     
-    internal weak var tableView: UITableView?
-    private let cellConfiguration: ConfigureTableViewCell
-    private let fetchedResultsController: NSFetchedResultsController<ResultType>
+    public weak var tableView: UITableView?
+    public let cellConfiguration: ConfigureTableViewCell
+    public let fetchedResultsController: NSFetchedResultsController<ResultType>
     
     public init(tableView: UITableView, with fetchedResultsController: NSFetchedResultsController<ResultType>, with cellConfiguration: @escaping ConfigureTableViewCell) {
         self.tableView = tableView
@@ -66,9 +66,9 @@ open class TableViewCoreDataSource<ResultType> : NSObject, CoreDataSource, UITab
 
 open class CollectionViewCoreDataSource<ResultType> : NSObject, CoreDataSource, UICollectionViewDataSource where ResultType : NSFetchRequestResult {
     
-    internal weak var collectionView: UICollectionView?
-    private let cellConfiguration: ConfigureCollectionViewCell
-    private let fetchedResultsController: NSFetchedResultsController<ResultType>
+    public weak var collectionView: UICollectionView?
+    public let cellConfiguration: ConfigureCollectionViewCell
+    public let fetchedResultsController: NSFetchedResultsController<ResultType>
     
     public init(collectionView: UICollectionView, with fetchedResultsController: NSFetchedResultsController<ResultType>, with cellConfiguration: @escaping ConfigureCollectionViewCell) {
         self.fetchedResultsController = fetchedResultsController
