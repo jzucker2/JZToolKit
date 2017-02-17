@@ -16,13 +16,34 @@ extension UITableViewCell: DynamicDisplayView { }
 
 public protocol CoreDataSource {
     associatedtype ViewType
+    associatedtype FetchRequestResult: NSFetchRequestResult
     weak var view: UIView? { get }
     
-    //    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> { get }
+    var fetchedResultsController: NSFetchedResultsController<FetchRequestResult> { get }
     
-    //    var numberOfSections: Int { get }
-    //    func numberOfItems(in section: Int) -> Int
-    //    func viewForItem(at indexPath: IndexPath) -> DynamicDisplayView
+    var numberOfSections: Int { get }
+    func numberOfItems(in section: Int) -> Int
+}
+
+extension CoreDataSource {
+    
+    public var numberOfSections: Int {
+        print(#function)
+        guard let sections = fetchedResultsController.sections else {
+            return 0
+        }
+        return sections.count
+    }
+    
+    public func numberOfItems(in section: Int) -> Int {
+        print(#function)
+        guard let sections = fetchedResultsController.sections else {
+            return 0
+        }
+        let sectionInfo = sections[section]
+        return sectionInfo.numberOfObjects
+    }
+    
 }
 
 open class TableViewCoreDataSource<ResultType> : NSObject, CoreDataSource, UITableViewDataSource where ResultType : NSFetchRequestResult {
@@ -44,18 +65,11 @@ open class TableViewCoreDataSource<ResultType> : NSObject, CoreDataSource, UITab
     
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            return 0
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        return numberOfItems(in: section)
     }
     
     public func numberOfSections(in tableView: UITableView) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            return 0
-        }
-        return sections.count
+        return numberOfSections
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -83,23 +97,15 @@ open class CollectionViewCoreDataSource<ResultType> : NSObject, CoreDataSource, 
     }
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            return 0
-        }
-        return sections.count
+        return numberOfSections
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let sections = fetchedResultsController.sections else {
-            return 0
-        }
-        let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        return numberOfItems(in: section)
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return cellConfiguration(nil, indexPath)
     }
-    
     
 }
