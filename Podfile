@@ -7,7 +7,7 @@ target 'JZToolKit_Example' do
 
   target 'JZToolKit_Tests' do
     inherit! :search_paths
-
+    pod 'JZToolKit', :path => '.'
     
   end
 end
