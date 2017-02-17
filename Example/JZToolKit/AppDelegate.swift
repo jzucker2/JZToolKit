@@ -48,8 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
         let testCollectionViewNavController = UINavigationController(rootViewController: testCollectionViewController)
         testCollectionViewNavController.tabBarItem.title = "Test CV"
         
+        let errorViewController = ErrorViewController()
+        let errorNavController = UINavigationController(rootViewController: errorViewController)
+        errorNavController.tabBarItem.title = "Errors"
+        
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController]
+        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController, errorNavController]
         
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
