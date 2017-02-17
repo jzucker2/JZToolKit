@@ -1,8 +1,8 @@
 //
-//  CoreDataDelegates.swift
+//  CoreDataSources.swift
 //  Pods
 //
-//  Created by Jordan Zucker on 2/15/17.
+//  Created by Jordan Zucker on 2/16/17.
 //
 //
 
@@ -18,11 +18,11 @@ public protocol CoreDataSource {
     associatedtype ViewType
     weak var view: UIView? { get }
     
-//    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> { get }
+    //    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult> { get }
     
-//    var numberOfSections: Int { get }
-//    func numberOfItems(in section: Int) -> Int
-//    func viewForItem(at indexPath: IndexPath) -> DynamicDisplayView
+    //    var numberOfSections: Int { get }
+    //    func numberOfItems(in section: Int) -> Int
+    //    func viewForItem(at indexPath: IndexPath) -> DynamicDisplayView
 }
 
 open class TableViewCoreDataSource<ResultType> : NSObject, CoreDataSource, UITableViewDataSource where ResultType : NSFetchRequestResult {
@@ -100,6 +100,6 @@ open class CollectionViewCoreDataSource<ResultType> : NSObject, CoreDataSource, 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return cellConfiguration(nil, indexPath)
     }
-
+    
     
 }
