@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         DataController.sharedController.delegate = self
@@ -31,6 +30,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
                 UserDefaults.standard.set(true, forKey: InitialLaunchKey)
             }
         }
+        
+        
+        let bounds = UIScreen.main.bounds
+        let window = UIWindow(frame: bounds)
+        self.window = window
+        
+        let coreDataTableViewController = CoreDataTableViewController()
+        let tableNavController = UINavigationController(rootViewController: coreDataTableViewController)
+        tableNavController.tabBarItem.title = "TableView"
+        
+        let coreDataCollectionViewController = CoreDataCollectionViewController()
+        let collectionNavController = UINavigationController(rootViewController: coreDataCollectionViewController)
+        collectionNavController.tabBarItem.title = "CollectionView"
+        
+        let testCollectionViewController = TestCollectionViewController()
+        let testCollectionViewNavController = UINavigationController(rootViewController: testCollectionViewController)
+        testCollectionViewNavController.tabBarItem.title = "Test CV"
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController]
+        
+        self.window?.rootViewController = tabBarController
+        self.window?.makeKeyAndVisible()
         
         return true
     }

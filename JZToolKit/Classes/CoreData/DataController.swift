@@ -78,9 +78,7 @@ public class DataController: NSObject {
         container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
-    
-    // MARK: - Core Data Saving support
-    
+        
     // MARK: - Core Data Saving support
     // if context is nil, then viewContext is used
     // for completion: context saved, true for saved, and false for no save, error if there is one
