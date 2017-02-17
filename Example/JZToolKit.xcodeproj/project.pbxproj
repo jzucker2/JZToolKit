@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1EF95DF0003CCE3C052CD165 /* Pods_JZToolKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D55E8C81B6AB0D55E603EA8C /* Pods_JZToolKit_Example.framework */; };
+		512E27661E576B8C008A3BAC /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E27651E576B8C008A3BAC /* ErrorViewController.swift */; };
+		512E276A1E577200008A3BAC /* SubclassToolKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E27691E577200008A3BAC /* SubclassToolKitViewController.swift */; };
 		517557991E53C4F700492345 /* Example.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 517557971E53C4F700492345 /* Example.xcdatamodeld */; };
 		5175579C1E53C59200492345 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5175579A1E53C59200492345 /* Note+CoreDataClass.swift */; };
 		5175579D1E53C59200492345 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5175579B1E53C59200492345 /* Note+CoreDataProperties.swift */; };
@@ -17,6 +19,7 @@
 		519F8A931E54D7B7003F867F /* NoteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519F8A921E54D7B7003F867F /* NoteCollectionViewCell.swift */; };
 		519F8A951E54D9C0003F867F /* DataControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519F8A941E54D9C0003F867F /* DataControllerExtensions.swift */; };
 		519F8A9B1E5632AA003F867F /* TestCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519F8A9A1E5632AA003F867F /* TestCollectionViewController.swift */; };
+		51BCEB0B1E5781EE009D5E9B /* ErrorGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BCEB0A1E5781EE009D5E9B /* ErrorGenerator.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
@@ -36,6 +39,8 @@
 
 /* Begin PBXFileReference section */
 		19AA05484B60211AD943BF94 /* Pods-JZToolKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JZToolKit_Example.release.xcconfig"; path = "../Pods/Target Support Files/Pods-JZToolKit_Example/Pods-JZToolKit_Example.release.xcconfig"; sourceTree = "<group>"; };
+		512E27651E576B8C008A3BAC /* ErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
+		512E27691E577200008A3BAC /* SubclassToolKitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubclassToolKitViewController.swift; sourceTree = "<group>"; };
 		517557981E53C4F700492345 /* Example.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Example.xcdatamodel; sourceTree = "<group>"; };
 		5175579A1E53C59200492345 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5175579B1E53C59200492345 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -45,6 +50,7 @@
 		519F8A921E54D7B7003F867F /* NoteCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteCollectionViewCell.swift; sourceTree = "<group>"; };
 		519F8A941E54D9C0003F867F /* DataControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataControllerExtensions.swift; sourceTree = "<group>"; };
 		519F8A9A1E5632AA003F867F /* TestCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCollectionViewController.swift; sourceTree = "<group>"; };
+		51BCEB0A1E5781EE009D5E9B /* ErrorGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorGenerator.swift; sourceTree = "<group>"; };
 		5804CCC5982D70DC03379FF0 /* Pods-JZToolKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JZToolKit_Example.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-JZToolKit_Example/Pods-JZToolKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5DC9044015D18F5723914CB3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* JZToolKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JZToolKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,9 +138,12 @@
 				519F8A941E54D9C0003F867F /* DataControllerExtensions.swift */,
 				519F8A8E1E54D70A003F867F /* CoreDataTableViewController.swift */,
 				519F8A901E54D7A6003F867F /* CoreDataCollectionViewController.swift */,
+				512E27651E576B8C008A3BAC /* ErrorViewController.swift */,
 				519F8A921E54D7B7003F867F /* NoteCollectionViewCell.swift */,
+				51BCEB0A1E5781EE009D5E9B /* ErrorGenerator.swift */,
 				5175579F1E53C89100492345 /* NoteTableViewCell.swift */,
 				519F8A9A1E5632AA003F867F /* TestCollectionViewController.swift */,
+				512E27691E577200008A3BAC /* SubclassToolKitViewController.swift */,
 				517557971E53C4F700492345 /* Example.xcdatamodeld */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -391,9 +400,12 @@
 			files = (
 				519F8A8F1E54D70A003F867F /* CoreDataTableViewController.swift in Sources */,
 				5175579C1E53C59200492345 /* Note+CoreDataClass.swift in Sources */,
+				51BCEB0B1E5781EE009D5E9B /* ErrorGenerator.swift in Sources */,
 				519F8A951E54D9C0003F867F /* DataControllerExtensions.swift in Sources */,
+				512E276A1E577200008A3BAC /* SubclassToolKitViewController.swift in Sources */,
 				519F8A911E54D7A6003F867F /* CoreDataCollectionViewController.swift in Sources */,
 				517557991E53C4F700492345 /* Example.xcdatamodeld in Sources */,
+				512E27661E576B8C008A3BAC /* ErrorViewController.swift in Sources */,
 				519F8A931E54D7B7003F867F /* NoteCollectionViewCell.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				5175579D1E53C59200492345 /* Note+CoreDataProperties.swift in Sources */,

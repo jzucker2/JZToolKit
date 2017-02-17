@@ -27,3 +27,14 @@ jzucker2, jordan.zucker@gmail.com
 ## License
 
 JZToolKit is available under the MIT license. See the LICENSE file for more info.
+
+### To Do
+
+- [ ] Add tests
+- [ ] Set up CI
+- [ ] Add docs
+- [ ] Add Comments to examples
+- [ ] Address collection view core data frc edge cases
+- [ ] Better examples and comments
+- [ ] Refactor to make cleaner and simpler (might be dependent on Swift 3.1)
+- [ ] Add error helpers (nav controller prompt errors and alert controller errors)

@@ -10,34 +10,13 @@ import UIKit
 import CoreData
 import JZToolKit
 
-class CoreDataTableViewController: UIViewController {
+class CoreDataTableViewController: ToolKitViewController {
 
     var tableView: UITableView!
     var fetchedResultsController: NSFetchedResultsController<Note>!
     var frcDelegate: TableViewFRCDelegate!
     var tableViewDataSource: TableViewCoreDataSource<Note>!
     
-    required init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func loadView() {
-        let bounds = UIScreen.main.bounds
-        let loadingView = UIView(frame: bounds)
-        loadingView.backgroundColor = .white
-        self.view = loadingView
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let bounds = UIScreen.main.bounds
-        self.view.frame = bounds
-    }
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
