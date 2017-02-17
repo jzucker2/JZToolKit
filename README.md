@@ -37,4 +37,4 @@ JZToolKit is available under the MIT license. See the LICENSE file for more info
 - [ ] Address collection view core data frc edge cases
 - [ ] Better examples and comments
 - [ ] Refactor to make cleaner and simpler (might be dependent on Swift 3.1)
-- [ ] Add error helpers (nav controller prompt errors and alert controller errors)
+- [ ] Look up [merging in User model info](http://chanson.livejournal.com/187540.html)
