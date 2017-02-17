@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JZToolKit'
-  s.version          = '0.8.0'
+  s.version          = '0.8.1'
   s.summary          = 'Tools for common Swift functions and helpers.'
 
 # This description is used to generate tags and improve search results.
@@ -51,6 +51,11 @@ going forward.
   s.subspec 'CoreData' do |core_data|
     core_data.source_files = 'JZToolKit/Classes/CoreData/**/*.swift'
     core_data.frameworks = 'UIKit', 'CoreData'
+  end
+
+  s.subspec 'Application' do |application|
+    application.source_files = 'JZToolKit/Classes/Application/**/*.swift'
+    application.frameworks = 'UIKit'
   end
 
   # s.default_subspec = 'Core'
