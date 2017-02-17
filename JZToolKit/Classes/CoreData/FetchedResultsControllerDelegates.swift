@@ -9,8 +9,8 @@
 import UIKit
 import CoreData
 
-public typealias ConfigureCollectionViewCell = (UICollectionViewCell, IndexPath) -> ()
-public typealias ConfigureTableViewCell = (UITableViewCell, IndexPath) -> ()
+public typealias ConfigureCollectionViewCell = (UICollectionViewCell?, IndexPath) -> (UICollectionViewCell)
+public typealias ConfigureTableViewCell = (UITableViewCell?, IndexPath) -> (UITableViewCell)
 
 public protocol DynamicDisplay: NSObjectProtocol { }
 
@@ -126,11 +126,10 @@ public class TableViewFRCDelegate: NSObject, FRCDelegate {
     
     public func reloadItem(at indexPath: IndexPath) {
         print(#function)
-//        tableView?.reloadRows(at: [indexPath], with: animation)
         guard let cell = tableView?.cellForRow(at: indexPath) else {
             return
         }
-        cellConfiguration(cell, indexPath)
+        _ = cellConfiguration(cell, indexPath)
     }
     
     public func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath) {
@@ -139,19 +138,6 @@ public class TableViewFRCDelegate: NSObject, FRCDelegate {
     }
     
 }
-
-//extension TableViewFRCDelegate: NSFetchedResultsControllerDelegate {
-//    
-//    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print(#function)
-//        tableView?.beginUpdates()
-//    }
-//    
-//    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        print(#function)
-//        tableView?.endUpdates()
-//    }
-//}
 
 public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     
@@ -195,11 +181,10 @@ public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     
     public func reloadItem(at indexPath: IndexPath) {
         print(#function)
-//        collectionView?.reloadItems(at: [indexPath])
         guard let cell = collectionView?.cellForItem(at: indexPath) else {
             return
         }
-        cellConfiguration(cell, indexPath)
+        _ = cellConfiguration(cell, indexPath)
     }
     
     public func moveItem(at indexPath: IndexPath, to newIndexPath: IndexPath) {
