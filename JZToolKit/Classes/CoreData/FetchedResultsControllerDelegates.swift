@@ -69,6 +69,8 @@ public protocol FRCDelegate: NSObjectProtocol, NSFetchedResultsControllerDelegat
     associatedtype ViewType
     weak var view: UIView? { get }
     
+//    var completion: ((DynamicDisplay) -> ())? { get set }
+    
     // MARK: - Sections
     func insertSections(_ sections: IndexSet)
     func deleteSections(_ sections: IndexSet)
@@ -88,6 +90,8 @@ public class TableViewFRCDelegate: NSObject, FRCDelegate {
     public var view: UIView? {
         return tableView
     }
+    
+    public var completion: ((UITableView?) -> ())?
     
     internal weak var tableView: UITableView?
     private let cellConfiguration: ConfigureTableViewCell
@@ -146,6 +150,8 @@ public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     internal weak var collectionView: UICollectionView?
     private let cellConfiguration: ConfigureCollectionViewCell
     
+    public var completion: ((UICollectionView?) -> ())?
+    
     public required init(collectionView: UICollectionView, with cellConfiguration: @escaping ConfigureCollectionViewCell) {
         self.cellConfiguration = cellConfiguration
         self.collectionView = collectionView
@@ -197,6 +203,13 @@ public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
 }
 
 extension TableViewFRCDelegate {
+    
+    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.tableView?.beginUpdates()
+        }
+    }
+    
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         print(#function)
         Change.section(sectionIndex, type).applyChange(with: self)
@@ -206,6 +219,14 @@ extension TableViewFRCDelegate {
         print(#function)
         Change.object(indexPath, newIndexPath, type).applyChange(with: self)
     }
+    
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.tableView?.endUpdates()
+            self.completion?(self.tableView)
+        }
+    }
+    
 }
 
 extension CollectionViewFRCDelegate {
@@ -217,5 +238,11 @@ extension CollectionViewFRCDelegate {
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         print(#function)
         Change.object(indexPath, newIndexPath, type).applyChange(with: self)
+    }
+    
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        DispatchQueue.main.async {
+            self.completion?(self.collectionView)
+        }
     }
 }
