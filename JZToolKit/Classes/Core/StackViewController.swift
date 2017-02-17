@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol StackViewControllerDelegate: NSObjectProtocol {
+    @objc optional func stackViewStatusBarHeight(_ stackView: StackViewController) -> CGFloat
+}
+
 open class StackViewController: ToolKitViewController {
     
     open func setUp(customStackView: UIStackView) {
@@ -17,6 +21,7 @@ open class StackViewController: ToolKitViewController {
     }
     
     open var stackView: UIStackView!
+    weak var delegate: StackViewControllerDelegate?
     
     open override func loadView() {
         super.loadView()
@@ -38,7 +43,10 @@ open class StackViewController: ToolKitViewController {
         super.viewDidLayoutSubviews()
         print(#function)
         let bounds = UIScreen.main.bounds
-        var topPadding = UIApplication.shared.statusBarFrame.height
+        var topPadding: CGFloat = 0.0
+        if let statusBarHeight = delegate?.stackViewStatusBarHeight?(self) {
+            topPadding += statusBarHeight
+        }
         if let navBarHeight = navigationController?.navigationBar.frame.height {
             topPadding += navBarHeight
         }
