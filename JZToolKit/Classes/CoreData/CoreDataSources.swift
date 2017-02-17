@@ -36,7 +36,7 @@ open class TableViewCoreDataSource<ResultType> : NSObject, CoreDataSource, UITab
     public let cellConfiguration: ConfigureTableViewCell
     public let fetchedResultsController: NSFetchedResultsController<ResultType>
     
-    public init(tableView: UITableView, with fetchedResultsController: NSFetchedResultsController<ResultType>, with cellConfiguration: @escaping ConfigureTableViewCell) {
+    public required init(tableView: UITableView, with fetchedResultsController: NSFetchedResultsController<ResultType>, with cellConfiguration: @escaping ConfigureTableViewCell) {
         self.tableView = tableView
         self.cellConfiguration = cellConfiguration
         self.fetchedResultsController = fetchedResultsController
@@ -70,7 +70,7 @@ open class CollectionViewCoreDataSource<ResultType> : NSObject, CoreDataSource, 
     public let cellConfiguration: ConfigureCollectionViewCell
     public let fetchedResultsController: NSFetchedResultsController<ResultType>
     
-    public init(collectionView: UICollectionView, with fetchedResultsController: NSFetchedResultsController<ResultType>, with cellConfiguration: @escaping ConfigureCollectionViewCell) {
+    public required init(collectionView: UICollectionView, with fetchedResultsController: NSFetchedResultsController<ResultType>, with cellConfiguration: @escaping ConfigureCollectionViewCell) {
         self.fetchedResultsController = fetchedResultsController
         self.cellConfiguration = cellConfiguration
         self.collectionView = collectionView

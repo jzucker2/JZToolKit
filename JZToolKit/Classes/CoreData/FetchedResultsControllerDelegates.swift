@@ -90,7 +90,7 @@ public class TableViewFRCDelegate: NSObject, FRCDelegate {
     internal weak var tableView: UITableView?
     private let cellConfiguration: ConfigureTableViewCell
     
-    public init(tableView: UITableView, with cellConfiguration: @escaping ConfigureTableViewCell) {
+    public required init(tableView: UITableView, with cellConfiguration: @escaping ConfigureTableViewCell) {
         self.tableView = tableView
         self.cellConfiguration = cellConfiguration
     }
@@ -144,7 +144,7 @@ public class CollectionViewFRCDelegate: NSObject, FRCDelegate {
     internal weak var collectionView: UICollectionView?
     private let cellConfiguration: ConfigureCollectionViewCell
     
-    public init(collectionView: UICollectionView, with cellConfiguration: @escaping ConfigureCollectionViewCell) {
+    public required init(collectionView: UICollectionView, with cellConfiguration: @escaping ConfigureCollectionViewCell) {
         self.cellConfiguration = cellConfiguration
         self.collectionView = collectionView
     }
