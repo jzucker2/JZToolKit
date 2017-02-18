@@ -16,8 +16,9 @@ public struct KVOActions: OptionSet {
     }
     public static let add = KVOActions(rawValue: 1 << 0)
     public static let remove = KVOActions(rawValue: 1 << 1)
+    public static let removeOldValue = KVOActions(rawValue: 1 << 2)
     
-    public static let all: KVOActions = [.add, .remove]
+    public static let propertyObserverActions: KVOActions = [.add, .removeOldValue]
 }
 
 
@@ -41,8 +42,11 @@ open class ObservingObject: NSObject, Observer {
             return
         }
         for (keyPath, _) in observingKeyPaths {
-            if actions.contains(.remove) {
+            if actions.contains(.removeOldValue) {
                 oldValue?.removeObserver(self, forKeyPath: keyPath, context: &kvoContext)
+            }
+            if actions.contains(.remove) {
+                observedObject?.removeObserver(self, forKeyPath: keyPath, context: &kvoContext)
             }
             if actions.contains(.add) {
                 observedObject?.addObserver(self, forKeyPath: keyPath, options: [.new, .old, .initial], context: &kvoContext)
@@ -53,7 +57,7 @@ open class ObservingObject: NSObject, Observer {
     open var observedObject: NSObject? {
         didSet {
             print("hey there: \(#function)")
-            updateKVO(with: .all, oldValue: oldValue)
+            updateKVO(with: .propertyObserverActions, oldValue: oldValue)
         }
     }
     
