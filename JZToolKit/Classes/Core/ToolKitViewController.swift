@@ -23,8 +23,11 @@ open class ToolKitViewController: UIViewController, Observer {
             return
         }
         for (keyPath, _) in observingKeyPaths {
-            if actions.contains(.remove) {
+            if actions.contains(.removeOldValue) {
                 oldValue?.removeObserver(self, forKeyPath: keyPath, context: &kvoContext)
+            }
+            if actions.contains(.remove) {
+                observedObject?.removeObserver(self, forKeyPath: keyPath, context: &kvoContext)
             }
             if actions.contains(.add) {
                 observedObject?.addObserver(self, forKeyPath: keyPath, options: [.new, .old, .initial], context: &kvoContext)
@@ -35,7 +38,7 @@ open class ToolKitViewController: UIViewController, Observer {
     open var observedObject: NSObject? {
         didSet {
             print("hey there: \(#function)")
-            updateKVO(with: .all, oldValue: oldValue)
+            updateKVO(with: .propertyObserverActions, oldValue: oldValue)
         }
     }
     
@@ -89,7 +92,18 @@ open class ToolKitViewController: UIViewController, Observer {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
     }
+    
+//    open override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        updateKVO(with: .add)
+//    }
+//    
+//    open override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        updateKVO(with: .remove)
+//    }
 
     open override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
