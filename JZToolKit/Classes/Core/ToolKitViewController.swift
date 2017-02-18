@@ -17,17 +17,25 @@ open class ToolKitViewController: UIViewController, Observer {
         return nil
     }
     
+    public func updateKVO(with actions: KVOActions, oldValue: NSObject? = nil) {
+        guard let observingKeyPaths = type(of: self).observerResponses else {
+            print("No observer responses exist")
+            return
+        }
+        for (keyPath, _) in observingKeyPaths {
+            if actions.contains(.remove) {
+                oldValue?.removeObserver(self, forKeyPath: keyPath, context: &kvoContext)
+            }
+            if actions.contains(.add) {
+                observedObject?.addObserver(self, forKeyPath: keyPath, options: [.new, .old, .initial], context: &kvoContext)
+            }
+        }
+    }
+    
     open var observedObject: NSObject? {
         didSet {
             print("hey there: \(#function)")
-            guard let observingKeyPaths = type(of: self).observerResponses else {
-                print("No observer responses exist")
-                return
-            }
-            for (keyPath, _) in observingKeyPaths {
-                oldValue?.removeObserver(self, forKeyPath: keyPath, context: &kvoContext)
-                observedObject?.addObserver(self, forKeyPath: keyPath, options: [.new, .old, .initial], context: &kvoContext)
-            }
+            updateKVO(with: .all, oldValue: oldValue)
         }
     }
     
@@ -86,16 +94,6 @@ open class ToolKitViewController: UIViewController, Observer {
     open override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        observedObject = fetchObservedObject()
-    }
-    
-    open override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        observedObject = nil
     }
     
     deinit {
