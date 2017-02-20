@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'JZToolKit'
-  s.version          = '0.9.0'
+  s.version          = '0.9.1'
   s.summary          = 'Tools for common Swift functions and helpers.'
 
 # This description is used to generate tags and improve search results.
@@ -55,6 +55,7 @@ going forward.
 
   s.subspec 'Experimental' do |experimental|
     experimental.source_files = 'JZToolKit/Classes/Experimental/**/*.swift'
+    experimental.dependency 'JZToolKit/Core'
     experimental.frameworks = 'UIKit'
   end
 
