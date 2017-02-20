@@ -16,11 +16,11 @@ public protocol DataControllerDelegate: NSObjectProtocol {
     @objc optional func controllerWithManagedObjectModel(_ controller: DataController) -> NSManagedObjectModel
 }
 
-public class DataController: NSObject {
+open class DataController: NSObject {
     
     public weak var delegate: DataControllerDelegate?
     
-    public static let sharedController = DataController()
+    open static let sharedController = DataController()
     
     public var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
