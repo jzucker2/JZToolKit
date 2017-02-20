@@ -24,7 +24,6 @@
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		E1AA01AA0257405B959B4B86 /* Pods_JZToolKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA026FCFB5B4CA292E262137 /* Pods_JZToolKit_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +61,6 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* JZToolKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JZToolKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		72DC7A706EE1254E931221A9 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		8E42B70CBBA102117BA284F6 /* JZToolKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = JZToolKit.podspec; path = ../JZToolKit.podspec; sourceTree = "<group>"; };
 		922DE66E936EEE59AB699C2D /* Pods-JZToolKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JZToolKit_Tests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-JZToolKit_Tests/Pods-JZToolKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
 				51BCEB0E1E579A9D009D5E9B /* ObserverTestCase.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -421,7 +418,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 				51BCEB0F1E579A9D009D5E9B /* ObserverTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
