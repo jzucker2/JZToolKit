@@ -3,7 +3,8 @@ PODS:
     - JZToolKit/Core (= 0.10.0)
     - JZToolKit/CoreData (= 0.10.0)
   - JZToolKit/Core (0.10.0)
-  - JZToolKit/CoreData (0.10.0)
+  - JZToolKit/CoreData (0.10.0):
+    - JZToolKit/Core
   - JZToolKit/Experimental (0.10.0):
     - JZToolKit/Core
 
@@ -16,7 +17,7 @@ EXTERNAL SOURCES:
     :path: .
 
 SPEC CHECKSUMS:
-  JZToolKit: 59eec4089e524b65335ccc36f23d3341e8bbd892
+  JZToolKit: 54c06ae5e6e9688cc07dfcda183de0214ba959d2
 
 PODFILE CHECKSUM: 5cfa424dfa1541f07005911a66a1687867c3cbfd
 

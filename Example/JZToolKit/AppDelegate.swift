@@ -11,22 +11,30 @@ import JZToolKit
 
 fileprivate let InitialLaunchKey = "InitialLaunchKey"
 
+class TestDataController: DataController {
+    
+    static let current = TestDataController()
+    
+    override var persistentContainerName: String? {
+        return "Example"
+    }
+}
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        DataController.sharedController.delegate = self
         if !UserDefaults.standard.bool(forKey: InitialLaunchKey) {
-            DataController.sharedController.performBackgroundTask { (context) in
+            TestDataController.current.performBackgroundTask { (context) in
                 for index in 0..<10 {
                     let name = "Note \(index)"
                     let text = "This is a sample of note \(index)"
                     _ = Note.createNote(in: context, with: name, text: text)
                 }
-                DataController.sharedController.save(context: context)
+                TestDataController.current.save(context: context)
                 UserDefaults.standard.set(true, forKey: InitialLaunchKey)
             }
         }
@@ -59,8 +67,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
         let subclassToolKitNavController = SubclassToolKitViewController.embedInNavigationController()
         subclassToolKitNavController.tabBarItem.title = "Subclass"
         
+        let userMainViewController = UserMainViewController.embedInNavigationController()
+        userMainViewController.tabBarItem.title = "User"
+        
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController, errorNavController, toolkitNavController, subclassToolKitNavController]
+        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController, errorNavController, toolkitNavController, subclassToolKitNavController, userMainViewController]
         
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
@@ -71,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        TestDataController.current.save()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -89,13 +101,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, DataControllerDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-    // MARK: - DataControllerDelegate
-    
-    func controllerWithName(_ controller: DataController) -> String {
-        return "Example"
-    }
-
 
 }
 

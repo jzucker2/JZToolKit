@@ -9,16 +9,7 @@
 import UIKit
 import CoreData
 
-@objc
-public protocol DataControllerDelegate: NSObjectProtocol {
-    @objc optional func controllerWithPersistentContainerType(_ controller: DataController) -> NSPersistentContainer.Type
-    func controllerWithName(_ controller: DataController) -> String
-    @objc optional func controllerWithManagedObjectModel(_ controller: DataController) -> NSManagedObjectModel
-}
-
 open class DataController: NSObject {
-    
-    public weak var delegate: DataControllerDelegate?
     
     open static let sharedController = DataController()
     
@@ -36,29 +27,40 @@ open class DataController: NSObject {
     
     // MARK: - Core Data stack
     
-    private lazy var persistentContainer: NSPersistentContainer = {
+    open var persistentContainerName: String? {
+        return nil
+    }
+    
+    open var persistentContainerType: NSPersistentContainer.Type {
+        return NSPersistentContainer.self
+    }
+    
+    open var managedObjectModel: NSManagedObjectModel? {
+        return nil
+    }
+    
+    internal lazy var persistentContainer: NSPersistentContainer = {
         
-        guard let name = self.delegate?.controllerWithName(self) else {
+        guard let name = self.persistentContainerName else {
             fatalError("We need a name!")
         }
         let container: NSPersistentContainer
-        let containerType: NSPersistentContainer.Type
-        if let customType = self.delegate?.controllerWithPersistentContainerType?(self) {
-            containerType = customType
+
+        let containerType = self.persistentContainerType
+        
+        if let model = self.managedObjectModel {
+            container = containerType.init(name: name, managedObjectModel: model)
         } else {
-            containerType = NSPersistentContainer.self
+            container = containerType.init(name: name)
         }
+        
+        print("container: \(container.persistentStoreDescriptions)")
         /*
          The persistent container for the application. This implementation
          creates and returns a container, having loaded the store for the
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        if let model = self.delegate?.controllerWithManagedObjectModel?(self) {
-            container = containerType.init(name: name, managedObjectModel: model)
-        } else {
-            container = containerType.init(name: name)
-        }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -75,7 +77,7 @@ open class DataController: NSObject {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
-        container.viewContext.automaticallyMergesChangesFromParent = true
+        container.viewContext.automaticallyMergesChangesFromParent = true // we want this on
         return container
     }()
         

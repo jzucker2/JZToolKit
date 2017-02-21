@@ -50,6 +50,10 @@ going forward.
 
   s.subspec 'CoreData' do |core_data|
     core_data.source_files = 'JZToolKit/Classes/CoreData/**/*.swift'
+    core_data.resource_bundles = {
+        'JZToolKitModel' => ['JZToolKit/Assets/JZToolKitModel.xcdatamodeld']
+    }
+    core_data.dependency 'JZToolKit/Core'
     core_data.frameworks = 'UIKit', 'CoreData'
   end
 
