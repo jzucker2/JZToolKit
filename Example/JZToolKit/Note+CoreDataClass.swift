@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import JZToolKit
 
 @objc(Note)
 public class Note: NSManagedObject {
@@ -23,6 +24,20 @@ public class Note: NSManagedObject {
         note.name = name
         note.text = text
         return note
+    }
+
+}
+
+extension Note: UniqueObject {
+    public typealias Object = Note
+    
+    public var uniqueID: String? {
+        set {
+            self.identifier = newValue
+        }
+        get {
+            return self.identifier
+        }
     }
 
 }

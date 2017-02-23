@@ -114,6 +114,100 @@ open class DataController: NSObject {
     
     // MARK: - Objects
     
+    func fetchObject<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String) -> NSFetchRequestResult? {
+        var foundObject: NSFetchRequestResult? = nil
+        context.performAndWait {
+            do {
+//                guard let entityName = NSFetchRequestResult.en.entity().name else {
+//                    fatalError("We need a name for \(FetchedObject.debugDescription())")
+//                }
+                
+//                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+                //                let predicate =
+//                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = foundObject.fetchRequest()
+//                let entityName = foundObject.entityName
+                guard let entityName = NSFetchRequestResult.entity().name else {
+                    fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
+                }
+                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+                let predicate = NSPredicate(format: "%K == %@", "uniqueID", uniqueID)
+                fetchRequest.predicate = predicate
+                let results = try fetchRequest.execute()
+                assert(results.count <= 1)
+                foundObject = results.first
+            } catch {
+                fatalError(error.localizedDescription)
+            }
+            
+        }
+        return foundObject
+    }
     
+//    typealias UpdateObject = (UniqueObject) throws -> ()
+    typealias UpdateResult = (NSFetchRequestResult) throws -> ()
+    
+    func createOrUpdate<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String, and update: UpdateResult?) -> NSFetchRequestResult {
+        var finalObject: NSFetchRequestResult? = nil
+        context.performAndWait {
+            do {
+                print("createOrUpdate")
+                //                guard let entityName = NSFetchRequestResult.en.entity().name else {
+                //                    fatalError("We need a name for \(FetchedObject.debugDescription())")
+                //                }
+                
+                //                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+                //                let predicate =
+                //                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = foundObject.fetchRequest()
+                //                let entityName = foundObject.entityName
+                guard let entityName = NSFetchRequestResult.entity().name else {
+                    fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
+                }
+                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+                let predicate = NSPredicate(format: "%K == %@", "uniqueID", uniqueID)
+                fetchRequest.predicate = predicate
+                let results = try fetchRequest.execute()
+                assert(results.count <= 1)
+                finalObject = results.first
+                if finalObject == nil {
+                    print("create object")
+                    finalObject = NSFetchRequestResult.init(context: context)
+                }
+                print("got object")
+                try update?(finalObject!)
+                print("after block")
+            } catch {
+                fatalError(error.localizedDescription)
+            }
+            
+        }
+        return finalObject!
+    }
+    
+//    func createOrUpdate(in context: NSManagedObjectContext, with uniqueID: String?, and update: UpdateObject?) -> Object {
+//        var foundObject: Object? = nil
+//        context.performAndWait {
+//            do {
+//                print("createOrUpdate")
+//                guard let entityName = Object.entity().name else {
+//                    fatalError("We need a name for \(Object.debugDescription())")
+//                }
+//                let fetchRequest: NSFetchRequest<Object> = NSFetchRequest(entityName: entityName)
+//                let results = try fetchRequest.execute()
+//                assert(results.count <= 1)
+//                foundObject = results.first
+//                if foundObject == nil {
+//                    print("create object")
+//                    foundObject = Object.init(context: context)
+//                }
+//                print("got object")
+//                try update?(foundObject!)
+//                print("after block")
+//            } catch {
+//                fatalError("We can't handle errors at this level, even: \(error.localizedDescription)")
+//            }
+//            print("after then execute block")
+//        }
+//        return foundObject!
+//    }
 
 }
