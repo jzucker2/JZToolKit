@@ -18,9 +18,11 @@ public protocol UniqueObject: NSObjectProtocol {
     var creationDate: NSDate? { get set }
     static func fetchObject(in context: NSManagedObjectContext, with uniqueID: String?) -> Object?
     static func createOrUpdate(in context: NSManagedObjectContext, with uniqueID: String?, and update: UpdateObject?) -> Object
+//    static func fetchObject(in context: NSManagedObjectContext, with uniqueID: String?) -> NSManagedObject?
+//    static func createOrUpdate(in context: NSManagedObjectContext, with uniqueID: String?, and update: UpdateObject?) -> NSManagedObject
 }
 
-public extension UniqueObject where Object == NSManagedObject {
+public extension UniqueObject where Object: NSManagedObject {
     static func fetchObject(in context: NSManagedObjectContext, with uniqueID: String?) -> Object? {
         var foundObject: Object? = nil
         context.performAndWait {
