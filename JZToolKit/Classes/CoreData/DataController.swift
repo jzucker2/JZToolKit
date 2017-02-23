@@ -114,7 +114,7 @@ open class DataController: NSObject {
     
     // MARK: - Objects
     
-    func fetchObject<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String) -> NSFetchRequestResult? {
+    public func fetchObject<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String) -> NSFetchRequestResult? {
         var foundObject: NSFetchRequestResult? = nil
         context.performAndWait {
             do {
@@ -144,9 +144,9 @@ open class DataController: NSObject {
     }
     
 //    typealias UpdateObject = (UniqueObject) throws -> ()
-    typealias UpdateResult = (NSFetchRequestResult) throws -> ()
+    public typealias UpdateResult = (NSFetchRequestResult) throws -> ()
     
-    func createOrUpdate<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String, and update: UpdateResult?) -> NSFetchRequestResult {
+    public func createOrUpdate<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String, and update: UpdateResult?) -> NSFetchRequestResult {
         var finalObject: NSFetchRequestResult? = nil
         context.performAndWait {
             do {

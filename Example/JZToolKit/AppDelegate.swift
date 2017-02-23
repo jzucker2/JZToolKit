@@ -70,8 +70,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let userMainViewController = UserMainViewController.embedInNavigationController()
         userMainViewController.tabBarItem.title = "User"
         
+        let fetchNoteVC = FetchNoteViewController.embedInNavigationController()
+        fetchNoteVC.tabBarItem.title = "Fetch"
+        
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController, errorNavController, toolkitNavController, subclassToolKitNavController, userMainViewController]
+        tabBarController.viewControllers = [tableNavController, collectionNavController, testCollectionViewNavController, errorNavController, toolkitNavController, subclassToolKitNavController, userMainViewController, fetchNoteVC]
         
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
