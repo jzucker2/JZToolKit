@@ -29,7 +29,6 @@ public class Note: NSManagedObject {
 }
 
 extension Note: UniqueObject {
-    public typealias Object = Note
     
     public var uniqueID: String? {
         set {

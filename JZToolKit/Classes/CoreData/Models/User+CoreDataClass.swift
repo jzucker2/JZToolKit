@@ -10,11 +10,11 @@ import Foundation
 import CoreData
 
 
-
+@objc
 public protocol UniqueObject: NSObjectProtocol {
 //    typealias UpdateObject = (UniqueObject) throws -> ()
-    associatedtype Object: NSManagedObject, NSFetchRequestResult
-    var uniqueID: String? { get set }
+//    associatedtype Object: NSManagedObject, NSFetchRequestResult
+    @objc var uniqueID: String? { get set }
 //    static var uniqueIDPropertyName: String { get }
 //    func uniqueIDPredicate() -> NSPredicate
 //    func uniqueIDFetchRequest() -> NSFetchRequest<Object>

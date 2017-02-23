@@ -130,7 +130,7 @@ open class DataController: NSObject {
                     fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
                 }
                 let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
-                let predicate = NSPredicate(format: "%K == %@", "uniqueID", uniqueID)
+                let predicate = NSPredicate(format: "%K == %@", #keyPath(UniqueObject.uniqueID), uniqueID)
                 fetchRequest.predicate = predicate
                 let results = try fetchRequest.execute()
                 assert(results.count <= 1)
@@ -163,7 +163,7 @@ open class DataController: NSObject {
                     fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
                 }
                 let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
-                let predicate = NSPredicate(format: "%K == %@", "uniqueID", uniqueID)
+                let predicate = NSPredicate(format: "%K == %@", #keyPath(UniqueObject.uniqueID), uniqueID)
                 fetchRequest.predicate = predicate
                 let results = try fetchRequest.execute()
                 assert(results.count <= 1)
