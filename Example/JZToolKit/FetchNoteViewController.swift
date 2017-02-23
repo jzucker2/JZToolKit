@@ -61,11 +61,34 @@ class FetchNoteViewController: StackViewController {
             return
         }
         print("currentNoteIdentifier: \(currentNoteIdentifier)")
-        guard let fetchedNote: Note = TestDataController.current.fetchObject(in: TestDataController.current.viewContext, with: currentNoteIdentifier) else {
-            print("found no note")
-            return
+//        guard let fetchedNote: Note = TestDataController.current.fetchObject(in: TestDataController.current.viewContext, with: currentNoteIdentifier) else {
+//            print("found no note")
+//            return
+//        }
+//        print("fetchedNote: \(fetchedNote.debugDescription)")
+        
+//        guard let fetchedNote: Note = TestDataController.current.fetchObject(in: TestDataController.current.viewContext, with: currentNoteIdentifier) else {
+//            print("found no note")
+//            return
+//        }
+        
+        let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: currentNoteIdentifier) { (foundNote) in
+            guard let updatedNote = foundNote as? Note else {
+                fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+            }
+            print("originalNote: \(updatedNote.debugDescription)")
+            guard let oldText = updatedNote.text else {
+                fatalError("We expected text!")
+            }
+            updatedNote.text = "\(oldText) and I added more!"
         }
+//
         print("fetchedNote: \(fetchedNote.debugDescription)")
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            let fetchedAgain: Note? = TestDataController.current.fetchObject(in: TestDataController.current.viewContext, with: currentNoteIdentifier)
+            print("fetchedAgain: \(fetchedAgain!.debugDescription)")
+        }
+        
     }
 
 }
