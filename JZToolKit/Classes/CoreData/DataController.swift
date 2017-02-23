@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+
+
 open class DataController: NSObject {
     
     open static let sharedController = DataController()
@@ -109,5 +111,9 @@ open class DataController: NSObject {
             }
         }
     }
+    
+    // MARK: - Objects
+    
+    
 
 }
