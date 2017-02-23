@@ -92,21 +92,21 @@ public class User: NSManagedObject, UniqueObject {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         creationDate = NSDate()
-        userID = UUID().uuidString
+        uniqueID = UUID().uuidString
     }
     
-    public static var uniqueIDPropertyName: String {
-        return #keyPath(User.userID)
-    }
+//    public static var uniqueIDPropertyName: String {
+//        return #keyPath(User.userID)
+//    }
     
-    public var uniqueID: String? {
-        set {
-            self.userID = newValue
-        }
-        get {
-            return self.userID
-        }
-    }
+//    public var uniqueID: String? {
+//        set {
+//            self.userID = newValue
+//        }
+//        get {
+//            return self.userID
+//        }
+//    }
     
     
 //    public class func user(in context: NSManagedObjectContext, with name: String?) -> User {

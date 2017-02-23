@@ -181,6 +181,7 @@ open class DataController: NSObject {
                 if createObject && (finalObject == nil) {
                     print("\(#function) fetch uniqueID: \(uniqueID) create object")
                     finalObject = NSFetchRequestResult.init(context: context!)
+                    finalObject?.uniqueID = uniqueID // don't forget to set the uniqueID
                 }
                 print("\(#function) fetch uniqueID: \(uniqueID) got object")
                 try update?(finalObject!)

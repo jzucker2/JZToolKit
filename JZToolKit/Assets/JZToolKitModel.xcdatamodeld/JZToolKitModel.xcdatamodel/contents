@@ -4,7 +4,7 @@
         <attribute name="creationDate" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="thumbnail" optional="YES" attributeType="Transformable" valueTransformerName="ImageToDataTransformer" customClassName="UIImage" syncable="YES"/>
-        <attribute name="userID" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="uniqueID" attributeType="String" indexed="YES" syncable="YES"/>
     </entity>
     <elements>
         <element name="User" positionX="-63" positionY="-18" width="128" height="105"/>

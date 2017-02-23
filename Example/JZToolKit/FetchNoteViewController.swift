@@ -15,6 +15,7 @@ class FetchNoteViewController: StackViewController {
     var noteIdentifier: String?
     var fetchButton: UIButton!
     var instructionsLabel: UILabel!
+    var createAndFetchButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +46,13 @@ class FetchNoteViewController: StackViewController {
         fetchButton.setTitle("Make fetch happen", for: .normal)
         fetchButton.addTarget(self, action: #selector(fetchButtonPressed(sender:)), for: .touchUpInside)
         stackView.addArrangedSubview(fetchButton)
+        
+        createAndFetchButton = UIButton(type: .system)
+        createAndFetchButton.setTitle("Create and fetch", for: .normal)
+        createAndFetchButton.addTarget(self, action: #selector(createAndFetchButtonPressed(sender:)), for: .touchUpInside)
+        stackView.addArrangedSubview(createAndFetchButton)
+        
+        
         
         view.setNeedsLayout()
     }
@@ -89,6 +97,39 @@ class FetchNoteViewController: StackViewController {
             print("fetchedAgain: \(fetchedAgain!.debugDescription)")
         }
         
+    }
+    
+    func createAndFetchButtonPressed(sender: UIButton) {
+        let newNoteIdentifier = UUID().uuidString
+        let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (foundNote) in
+            guard let updatedNote = foundNote as? Note else {
+                fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+            }
+            print("originalNote: \(updatedNote.debugDescription)")
+            updatedNote.name = "New note!!"
+            updatedNote.text = "I was created from scratch"
+        })
+        
+        print("fetchedNote: \(fetchedNote.debugDescription)")
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+            let fetchedAgain: Note? = TestDataController.current.fetchObject(in: TestDataController.current.viewContext, with: newNoteIdentifier)
+            print("fetchedAgain: \(fetchedAgain!.debugDescription)")
+        }
+        
+        print("fetchedNote: \(fetchedNote.debugDescription)")
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
+            let fetchedAgain: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (foundNote) in
+                guard let updatedNote = foundNote as? Note else {
+                    fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+                }
+                print("originalNote: \(updatedNote.debugDescription)")
+                guard let oldText = updatedNote.text else {
+                    fatalError("We expected text!")
+                }
+                updatedNote.text = "\(oldText) and added to later"
+            })
+            print("fetchedAgain: \(fetchedAgain.debugDescription)")
+        }
     }
 
 }
