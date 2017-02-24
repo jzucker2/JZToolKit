@@ -12,13 +12,13 @@ import CoreData
 extension NSManagedObjectModel {
     
     func modelFromPod(containing object: NSObject, named: String) -> NSManagedObjectModel? {
-        let aClass = object.classForCoder
+        
+        let aClass: AnyClass = object.classForCoder
         print("aClass: \(aClass.debugDescription())")
         return modelFromPod(for: aClass, named: named)
     }
     
     func modelFromPod(for aClass: AnyClass, named: String) -> NSManagedObjectModel? {
-        var finalModel: NSManagedObjectModel? = nil
         
         let podBundle = Bundle(for: aClass)
         print("podBundle: \(podBundle.debugDescription)")
@@ -34,7 +34,7 @@ extension NSManagedObjectModel {
             fatalError("no managed object model")
         }
         print("podModel: \(toolKitModel.debugDescription)")
-        return finalModel
+        return toolKitModel
     }
     
 }
@@ -142,7 +142,7 @@ open class DataController: NSObject {
     
     // MARK: - Objects
     
-    public func fetchObject<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String) -> NSFetchRequestResult? {
+    public func fetchObject<NSFetchRequestResult: UniqueObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String) -> NSFetchRequestResult? where NSFetchRequestResult: NSManagedObject {
         var finalObject: NSFetchRequestResult? = nil
         finalObject = fetchResult(in: context, with: uniqueID, shouldCreateIfNil: false)
         return finalObject
@@ -150,7 +150,7 @@ open class DataController: NSObject {
     
     public typealias UpdateResult = (Bool, NSFetchRequestResult) throws -> ()
     
-    internal func fetchResult<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? {
+    internal func fetchResult<NSFetchRequestResult: UniqueObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? where NSFetchRequestResult: NSManagedObject {
 //        print("\(#function) uniqueID: \(uniqueID) with createObject: \(createObject)")
         var context = context
         if context == nil {
@@ -189,7 +189,7 @@ open class DataController: NSObject {
         return finalObject
     }
     
-    public func createOrUpdate<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String? = nil, and update: UpdateResult? = nil) -> NSFetchRequestResult {
+    public func createOrUpdate<NSFetchRequestResult: UniqueObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String? = nil, and update: UpdateResult? = nil) -> NSFetchRequestResult where NSFetchRequestResult: NSManagedObject {
         var fetchingID = ""
         if let actualID = uniqueID {
             fetchingID = actualID
