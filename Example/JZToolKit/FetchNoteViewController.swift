@@ -16,6 +16,7 @@ class FetchNoteViewController: StackViewController {
     var fetchButton: UIButton!
     var instructionsLabel: UILabel!
     var createAndFetchButton: UIButton!
+    var alertControllerButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +52,11 @@ class FetchNoteViewController: StackViewController {
         createAndFetchButton.setTitle("Create and fetch", for: .normal)
         createAndFetchButton.addTarget(self, action: #selector(createAndFetchButtonPressed(sender:)), for: .touchUpInside)
         stackView.addArrangedSubview(createAndFetchButton)
+        
+        alertControllerButton = UIButton(type: .system)
+        alertControllerButton.setTitle("Alert controller for name", for: .normal)
+        alertControllerButton.addTarget(self, action: #selector(alertControllerButtonPressed(sender:)), for: .touchUpInside)
+        stackView.addArrangedSubview(alertControllerButton)
         
         
         
@@ -153,6 +159,18 @@ class FetchNoteViewController: StackViewController {
             })
             print("fetchedAgain: \(fetchedAgain.debugDescription)")
         }
+    }
+    
+    func alertControllerButtonPressed(sender: UIButton) {
+        guard let currentNoteIdentifier = noteIdentifier else {
+            return
+        }
+        guard let fetchedNote: Note = TestDataController.current.fetchObject(with: currentNoteIdentifier) else {
+            print("how did we not have a named object?")
+            return
+        }
+        let alertController = TestDataController.current.changeNameAlertController(for: fetchedNote, shouldSave: true)
+        present(alertController, animated: true)
     }
 
 }

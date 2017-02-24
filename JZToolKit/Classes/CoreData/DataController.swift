@@ -123,7 +123,7 @@ open class DataController: NSObject {
     public typealias UpdateResult = (NSFetchRequestResult) throws -> ()
     
     internal func fetchResult<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? {
-        print("\(#function) uniqueID: \(uniqueID) with createObject: \(createObject)")
+//        print("\(#function) uniqueID: \(uniqueID) with createObject: \(createObject)")
         var context = context
         if context == nil {
             context = viewContext
@@ -131,31 +131,31 @@ open class DataController: NSObject {
         var finalObject: NSFetchRequestResult? = nil
         context!.performAndWait {
             do {
-                print("\(#function) fetch uniqueID: \(uniqueID)")
+//                print("\(#function) fetch uniqueID: \(uniqueID)")
                 guard let entityName = NSFetchRequestResult.entity().name else {
                     fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
                 }
                 let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
                 let predicate = NSPredicate(format: "%K == %@", #keyPath(UniqueObject.uniqueID), uniqueID)
                 fetchRequest.predicate = predicate
-                print("\(#function) fetch uniqueID: \(uniqueID) fetchRequest: \(fetchRequest.debugDescription)")
+//                print("\(#function) fetch uniqueID: \(uniqueID) fetchRequest: \(fetchRequest.debugDescription)")
                 let results = try fetchRequest.execute()
                 assert(results.count <= 1)
                 finalObject = results.first
                 if createObject && (finalObject == nil) {
-                    print("\(#function) fetch uniqueID: \(uniqueID) create object")
+//                    print("\(#function) fetch uniqueID: \(uniqueID) create object")
                     finalObject = NSFetchRequestResult.init(context: context!)
                     finalObject?.uniqueID = uniqueID // don't forget to set the uniqueID
                 }
-                print("\(#function) fetch uniqueID: \(uniqueID) got object")
+//                print("\(#function) fetch uniqueID: \(uniqueID) got object")
                 try update?(finalObject!)
-                print("\(#function) fetch uniqueID: \(uniqueID) after block")
+//                print("\(#function) fetch uniqueID: \(uniqueID) after block")
             } catch {
                 fatalError(error.localizedDescription)
             }
             
         }
-        print("\(#function) fetch uniqueID: \(uniqueID) return: \(finalObject.debugDescription)")
+//        print("\(#function) fetch uniqueID: \(uniqueID) return: \(finalObject.debugDescription)")
         return finalObject
     }
     
@@ -169,6 +169,46 @@ open class DataController: NSObject {
         var finalObject: NSFetchRequestResult? = nil
         finalObject = fetchResult(in: context, with: fetchingID, shouldCreateIfNil: true, and: update)
         return finalObject!
+    }
+    
+    public func changeNameAlertController(in context: NSManagedObjectContext? = nil, for uniqueObject: NamedUniqueObject, shouldSave: Bool = true, with completion: ((UIAlertAction, String?) -> Swift.Void)? = nil) -> UIAlertController {
+        var context = context
+        if context == nil {
+            context = viewContext
+        }
+        let alertController = UIAlertController(title: "Update name", message: "Choose a new name for your object", preferredStyle: .alert)
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Name ..."
+            context!.perform {
+                guard let actualName = uniqueObject.name else {
+                    return
+                }
+                let workItem = DispatchWorkItem(qos: .userInteractive, flags: [], block: {
+                    textField.text = actualName
+                })
+                DispatchQueue.main.async(execute: workItem)
+            }
+        }
+        let textField = alertController.textFields![0] // we just created this above
+        let updateAction = UIAlertAction(title: "Update", style: .default) { (action) in
+            // Probably need to do verification here
+            let updatedName = textField.text! // crash for now, fix up later
+            context!.perform {
+                uniqueObject.name = updatedName
+                if shouldSave {
+                    self.save(context: context!)
+                }
+                completion?(action, updatedName)
+            }
+        }
+        alertController.addAction(updateAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            context!.perform {
+                completion?(action, uniqueObject.name)
+            }
+        }
+        alertController.addAction(cancelAction)
+        return alertController
     }
 
 }
