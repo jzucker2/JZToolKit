@@ -19,13 +19,13 @@ public class Note: NSManagedObject {
 //        uniqueID = UUID().uuidString
     }
     
-    static func createNote(in context: NSManagedObjectContext, with name: String, text: String?) -> Note {
-        let note = Note(context: context)
-        note.name = name
-        note.text = text
-        note.uniqueID = UUID().uuidString
-        return note
-    }
+//    static func createNote(in context: NSManagedObjectContext, with name: String, text: String?) -> Note {
+//        let note = Note(context: context)
+//        note.name = name
+//        note.text = text
+//        note.uniqueID = UUID().uuidString
+//        return note
+//    }
 
 }
 

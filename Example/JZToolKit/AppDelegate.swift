@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import JZToolKit
 
 fileprivate let InitialLaunchKey = "InitialLaunchKey"
@@ -17,6 +18,17 @@ class TestDataController: DataController {
     
     override var persistentContainerName: String? {
         return "Example"
+    }
+    
+    func createNote(in context: NSManagedObjectContext?, with name: String, and text: String?) -> Note {
+        let createdNote: Note = createOrUpdate(in: context) { (fetchedNote) in
+            guard let updatedNote = fetchedNote as? Note else {
+                fatalError("how did we not get a note from: \(fetchedNote.debugDescription)")
+            }
+            updatedNote.name = name
+            updatedNote.text = text
+        }
+        return createdNote
     }
 }
 
@@ -32,7 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 for index in 0..<10 {
                     let name = "Note \(index)"
                     let text = "This is a sample of note \(index)"
-                    _ = Note.createNote(in: context, with: name, text: text)
+//                    _ = Note.createNote(in: context, with: name, text: text)
+                    _ = TestDataController.current.createNote(in: context, with: name, and: text)
                 }
                 TestDataController.current.save(context: context)
                 UserDefaults.standard.set(true, forKey: InitialLaunchKey)

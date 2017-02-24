@@ -114,43 +114,15 @@ open class DataController: NSObject {
     
     // MARK: - Objects
     
-    public func fetchObject<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String) -> NSFetchRequestResult? {
-//        var foundObject: NSFetchRequestResult? = nil
-//        context.performAndWait {
-//            do {
-////                guard let entityName = NSFetchRequestResult.en.entity().name else {
-////                    fatalError("We need a name for \(FetchedObject.debugDescription())")
-////                }
-//                
-////                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
-//                //                let predicate =
-////                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = foundObject.fetchRequest()
-////                let entityName = foundObject.entityName
-//                guard let entityName = NSFetchRequestResult.entity().name else {
-//                    fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
-//                }
-//                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
-////                let predicate = NSPredicate(format: "%K == %@", #keyPath(UniqueObject.uniqueID), uniqueID)
-//                let predicate = NSPredicate(format: "%K == %@", "identifier", uniqueID)
-//                fetchRequest.predicate = predicate
-//                let results = try fetchRequest.execute()
-//                assert(results.count <= 1)
-//                foundObject = results.first
-//            } catch {
-//                fatalError(error.localizedDescription)
-//            }
-//            
-//        }
-//        return foundObject
+    public func fetchObject<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String) -> NSFetchRequestResult? {
         var finalObject: NSFetchRequestResult? = nil
         finalObject = fetchResult(in: context, with: uniqueID, shouldCreateIfNil: false)
         return finalObject
     }
     
-//    typealias UpdateObject = (UniqueObject) throws -> ()
     public typealias UpdateResult = (NSFetchRequestResult) throws -> ()
     
-    internal func fetchResult<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext?, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? {
+    internal func fetchResult<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? {
         print("\(#function) uniqueID: \(uniqueID) with createObject: \(createObject)")
         var context = context
         if context == nil {
@@ -160,14 +132,6 @@ open class DataController: NSObject {
         context!.performAndWait {
             do {
                 print("\(#function) fetch uniqueID: \(uniqueID)")
-                //                guard let entityName = NSFetchRequestResult.en.entity().name else {
-                //                    fatalError("We need a name for \(FetchedObject.debugDescription())")
-                //                }
-                
-                //                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
-                //                let predicate =
-                //                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = foundObject.fetchRequest()
-                //                let entityName = foundObject.entityName
                 guard let entityName = NSFetchRequestResult.entity().name else {
                     fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
                 }
@@ -195,74 +159,16 @@ open class DataController: NSObject {
         return finalObject
     }
     
-    
-    public func createOrUpdate<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext, with uniqueID: String, and update: UpdateResult?) -> NSFetchRequestResult {
-//        let fetchedObject: NSFetchRequestResult = fetchResult(in: context, with: uniqueID, shouldCreateIfNil: true, and: UpdateResult)
-//        return fetchedObject
+    public func createOrUpdate<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String? = nil, and update: UpdateResult? = nil) -> NSFetchRequestResult {
+        var fetchingID = ""
+        if let actualID = uniqueID {
+            fetchingID = actualID
+        } else {
+            fetchingID = UUID().uuidString
+        }
         var finalObject: NSFetchRequestResult? = nil
-        finalObject = fetchResult(in: context, with: uniqueID, shouldCreateIfNil: true, and: update)
+        finalObject = fetchResult(in: context, with: fetchingID, shouldCreateIfNil: true, and: update)
         return finalObject!
-//        var finalObject: NSFetchRequestResult? = nil
-//        context.performAndWait {
-//            do {
-//                print("createOrUpdate")
-//                //                guard let entityName = NSFetchRequestResult.en.entity().name else {
-//                //                    fatalError("We need a name for \(FetchedObject.debugDescription())")
-//                //                }
-//                
-//                //                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
-//                //                let predicate =
-//                //                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = foundObject.fetchRequest()
-//                //                let entityName = foundObject.entityName
-//                guard let entityName = NSFetchRequestResult.entity().name else {
-//                    fatalError("We need a name for \(NSFetchRequestResult.debugDescription())")
-//                }
-//                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
-//                let predicate = NSPredicate(format: "%K == %@", #keyPath(UniqueObject.uniqueID), uniqueID)
-//                fetchRequest.predicate = predicate
-//                let results = try fetchRequest.execute()
-//                assert(results.count <= 1)
-//                finalObject = results.first
-//                if finalObject == nil {
-//                    print("create object")
-//                    finalObject = NSFetchRequestResult.init(context: context)
-//                }
-//                print("got object")
-//                try update?(finalObject!)
-//                print("after block")
-//            } catch {
-//                fatalError(error.localizedDescription)
-//            }
-//            
-//        }
-//        return finalObject!
     }
-    
-//    func createOrUpdate(in context: NSManagedObjectContext, with uniqueID: String?, and update: UpdateObject?) -> Object {
-//        var foundObject: Object? = nil
-//        context.performAndWait {
-//            do {
-//                print("createOrUpdate")
-//                guard let entityName = Object.entity().name else {
-//                    fatalError("We need a name for \(Object.debugDescription())")
-//                }
-//                let fetchRequest: NSFetchRequest<Object> = NSFetchRequest(entityName: entityName)
-//                let results = try fetchRequest.execute()
-//                assert(results.count <= 1)
-//                foundObject = results.first
-//                if foundObject == nil {
-//                    print("create object")
-//                    foundObject = Object.init(context: context)
-//                }
-//                print("got object")
-//                try update?(foundObject!)
-//                print("after block")
-//            } catch {
-//                fatalError("We can't handle errors at this level, even: \(error.localizedDescription)")
-//            }
-//            print("after then execute block")
-//        }
-//        return foundObject!
-//    }
 
 }
