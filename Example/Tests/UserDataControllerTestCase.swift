@@ -9,12 +9,6 @@
 import XCTest
 import JZToolKit
 
-extension UserDataController {
-    
-    
-    
-}
-
 class UserDataControllerTestCase: XCTestCase {
     
     override func setUp() {

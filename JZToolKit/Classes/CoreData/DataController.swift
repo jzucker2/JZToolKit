@@ -9,7 +9,35 @@
 import UIKit
 import CoreData
 
-
+extension NSManagedObjectModel {
+    
+    func modelFromPod(containing object: NSObject, named: String) -> NSManagedObjectModel? {
+        let aClass = object.classForCoder
+        print("aClass: \(aClass.debugDescription())")
+        return modelFromPod(for: aClass, named: named)
+    }
+    
+    func modelFromPod(for aClass: AnyClass, named: String) -> NSManagedObjectModel? {
+        var finalModel: NSManagedObjectModel? = nil
+        
+        let podBundle = Bundle(for: aClass)
+        print("podBundle: \(podBundle.debugDescription)")
+        guard let dataModelBundleURL = podBundle.url(forResource: named, withExtension: "bundle") else {
+            fatalError("no pod bundle URL")
+        }
+        print("dataModelBundleURL: \(dataModelBundleURL.debugDescription)")
+        guard let dataModelBundle = Bundle(url: dataModelBundleURL) else {
+            fatalError("no pod bundle")
+        }
+        print("dataModelBundle: \(dataModelBundle.debugDescription)")
+        guard let toolKitModel = NSManagedObjectModel.mergedModel(from: [dataModelBundle]) else {
+            fatalError("no managed object model")
+        }
+        print("podModel: \(toolKitModel.debugDescription)")
+        return finalModel
+    }
+    
+}
 
 open class DataController: NSObject {
     
