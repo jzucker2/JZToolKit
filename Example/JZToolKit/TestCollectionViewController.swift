@@ -83,7 +83,7 @@ class TestCollectionViewController: ToolKitViewController, UICollectionViewDataS
         collectionView.dataSource = self
         
         
-        DataController.sharedController.viewContext.perform {
+        TestDataController.current.viewContext.perform {
             print("start adding slowly")
             let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
             do {
@@ -132,7 +132,7 @@ class TestCollectionViewController: ToolKitViewController, UICollectionViewDataS
     
     func configureCell(cell: UICollectionViewCell, indexPath: IndexPath) {
         print("\(#function) for indexPath: \(indexPath)")
-        DataController.sharedController.viewContext.perform {
+        TestDataController.current.viewContext.perform {
             guard let noteCell = cell as? NoteCollectionViewCell else {
                 fatalError()
             }

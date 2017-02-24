@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import JZToolKit
 
 @objc(Note)
 public class Note: NSManagedObject {
@@ -15,14 +16,8 @@ public class Note: NSManagedObject {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         creationDate = NSDate()
-        identifier = UUID().uuidString
-    }
-    
-    static func createNote(in context: NSManagedObjectContext, with name: String, text: String?) -> Note {
-        let note = Note(context: context)
-        note.name = name
-        note.text = text
-        return note
     }
 
 }
+
+extension Note: NamedUniqueObject { }

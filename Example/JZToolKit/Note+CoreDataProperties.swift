@@ -17,7 +17,7 @@ extension Note {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var identifier: String?
+    @NSManaged public var uniqueID: String?
     @NSManaged public var thumbnail: UIImage?
     @NSManaged public var creationDate: NSDate?
     @NSManaged public var text: String?

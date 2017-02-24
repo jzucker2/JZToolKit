@@ -29,7 +29,7 @@ class CoreDataCollectionViewController: ToolKitViewController {
             } else {
                 cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionViewCell.reuseIdentifier(), for: indexPath)
             }
-            DataController.sharedController.viewContext.performAndWait {
+            TestDataController.current.viewContext.performAndWait {
                 guard let noteCell = cell as? NoteCollectionViewCell else {
                     fatalError()
                 }
@@ -43,7 +43,7 @@ class CoreDataCollectionViewController: ToolKitViewController {
         let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
         let creationDateSortDescriptor = NSSortDescriptor(key: #keyPath(Note.creationDate), ascending: false)
         fetchRequest.sortDescriptors = [creationDateSortDescriptor]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: DataController.sharedController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: TestDataController.current.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         navigationItem.title = "Collection View"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNoteButtonPressed(sender:)))
@@ -80,7 +80,7 @@ class CoreDataCollectionViewController: ToolKitViewController {
     // MARK: - Actions
     
     func addNoteButtonPressed(sender: UIBarButtonItem) {
-        DataController.sharedController.saveNewNotesInBackground()
+        TestDataController.current.saveNewNotesInBackground()
     }
 
 }

@@ -30,7 +30,7 @@ JZToolKit is available under the MIT license. See the LICENSE file for more info
 
 ### To Do
 
-- [ ] Add tests
+- [ ] Add more tests
 - [ ] Set up CI
 - [ ] Add docs
 - [ ] Add Comments to examples
