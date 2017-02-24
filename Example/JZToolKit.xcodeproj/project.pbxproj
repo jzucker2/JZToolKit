@@ -10,6 +10,10 @@
 		1EF95DF0003CCE3C052CD165 /* Pods_JZToolKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D55E8C81B6AB0D55E603EA8C /* Pods_JZToolKit_Example.framework */; };
 		512E27661E576B8C008A3BAC /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E27651E576B8C008A3BAC /* ErrorViewController.swift */; };
 		512E276A1E577200008A3BAC /* SubclassToolKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E27691E577200008A3BAC /* SubclassToolKitViewController.swift */; };
+		515D3D951E5CB18A00D7D0C3 /* UserDataControllerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515D3D941E5CB18A00D7D0C3 /* UserDataControllerTestCase.swift */; };
+		515D3D971E5CB39300D7D0C3 /* UserMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515D3D961E5CB39300D7D0C3 /* UserMainViewController.swift */; };
+		515D3D9D1E5F660700D7D0C3 /* DataControllerTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515D3D9C1E5F660700D7D0C3 /* DataControllerTestCase.swift */; };
+		515D3D9F1E5F715D00D7D0C3 /* FetchNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515D3D9E1E5F715D00D7D0C3 /* FetchNoteViewController.swift */; };
 		517557991E53C4F700492345 /* Example.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 517557971E53C4F700492345 /* Example.xcdatamodeld */; };
 		5175579C1E53C59200492345 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5175579A1E53C59200492345 /* Note+CoreDataClass.swift */; };
 		5175579D1E53C59200492345 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5175579B1E53C59200492345 /* Note+CoreDataProperties.swift */; };
@@ -41,6 +45,10 @@
 		19AA05484B60211AD943BF94 /* Pods-JZToolKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JZToolKit_Example.release.xcconfig"; path = "../Pods/Target Support Files/Pods-JZToolKit_Example/Pods-JZToolKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		512E27651E576B8C008A3BAC /* ErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
 		512E27691E577200008A3BAC /* SubclassToolKitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubclassToolKitViewController.swift; sourceTree = "<group>"; };
+		515D3D941E5CB18A00D7D0C3 /* UserDataControllerTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataControllerTestCase.swift; sourceTree = "<group>"; };
+		515D3D961E5CB39300D7D0C3 /* UserMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMainViewController.swift; sourceTree = "<group>"; };
+		515D3D9C1E5F660700D7D0C3 /* DataControllerTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataControllerTestCase.swift; sourceTree = "<group>"; };
+		515D3D9E1E5F715D00D7D0C3 /* FetchNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchNoteViewController.swift; sourceTree = "<group>"; };
 		517557981E53C4F700492345 /* Example.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Example.xcdatamodel; sourceTree = "<group>"; };
 		5175579A1E53C59200492345 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5175579B1E53C59200492345 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -143,6 +151,8 @@
 				51BCEB0A1E5781EE009D5E9B /* ErrorGenerator.swift */,
 				5175579F1E53C89100492345 /* NoteTableViewCell.swift */,
 				519F8A9A1E5632AA003F867F /* TestCollectionViewController.swift */,
+				515D3D9E1E5F715D00D7D0C3 /* FetchNoteViewController.swift */,
+				515D3D961E5CB39300D7D0C3 /* UserMainViewController.swift */,
 				512E27691E577200008A3BAC /* SubclassToolKitViewController.swift */,
 				517557971E53C4F700492345 /* Example.xcdatamodeld */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
@@ -165,6 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				51BCEB0E1E579A9D009D5E9B /* ObserverTestCase.swift */,
+				515D3D941E5CB18A00D7D0C3 /* UserDataControllerTestCase.swift */,
+				515D3D9C1E5F660700D7D0C3 /* DataControllerTestCase.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -402,6 +414,8 @@
 				5175579C1E53C59200492345 /* Note+CoreDataClass.swift in Sources */,
 				51BCEB0B1E5781EE009D5E9B /* ErrorGenerator.swift in Sources */,
 				519F8A951E54D9C0003F867F /* DataControllerExtensions.swift in Sources */,
+				515D3D971E5CB39300D7D0C3 /* UserMainViewController.swift in Sources */,
+				515D3D9F1E5F715D00D7D0C3 /* FetchNoteViewController.swift in Sources */,
 				512E276A1E577200008A3BAC /* SubclassToolKitViewController.swift in Sources */,
 				519F8A911E54D7A6003F867F /* CoreDataCollectionViewController.swift in Sources */,
 				517557991E53C4F700492345 /* Example.xcdatamodeld in Sources */,
@@ -418,6 +432,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				515D3D951E5CB18A00D7D0C3 /* UserDataControllerTestCase.swift in Sources */,
+				515D3D9D1E5F660700D7D0C3 /* DataControllerTestCase.swift in Sources */,
 				51BCEB0F1E579A9D009D5E9B /* ObserverTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
