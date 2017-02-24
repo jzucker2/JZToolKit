@@ -142,7 +142,7 @@ open class DataController: NSObject {
     
     // MARK: - Objects
     
-    public func fetchObject<NSFetchRequestResult: UniqueObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String) -> NSFetchRequestResult? where NSFetchRequestResult: NSManagedObject {
+    public func fetchObject<NSFetchRequestResult>(in context: NSManagedObjectContext? = nil, with uniqueID: String) -> NSFetchRequestResult? where NSFetchRequestResult: UniqueObject, NSFetchRequestResult: NSManagedObject {
         var finalObject: NSFetchRequestResult? = nil
         finalObject = fetchResult(in: context, with: uniqueID, shouldCreateIfNil: false)
         return finalObject
@@ -150,7 +150,7 @@ open class DataController: NSObject {
     
     public typealias UpdateResult = (Bool, NSFetchRequestResult) throws -> ()
     
-    internal func fetchResult<NSFetchRequestResult: UniqueObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? where NSFetchRequestResult: NSManagedObject {
+    internal func fetchResult<NSFetchRequestResult>(in context: NSManagedObjectContext? = nil, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? where NSFetchRequestResult: UniqueObject, NSFetchRequestResult: NSManagedObject {
 //        print("\(#function) uniqueID: \(uniqueID) with createObject: \(createObject)")
         var context = context
         if context == nil {
@@ -189,7 +189,7 @@ open class DataController: NSObject {
         return finalObject
     }
     
-    public func createOrUpdate<NSFetchRequestResult: UniqueObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String? = nil, and update: UpdateResult? = nil) -> NSFetchRequestResult where NSFetchRequestResult: NSManagedObject {
+    public func createOrUpdate<NSFetchRequestResult>(in context: NSManagedObjectContext? = nil, with uniqueID: String? = nil, and update: UpdateResult? = nil) -> NSFetchRequestResult where NSFetchRequestResult: UniqueObject, NSFetchRequestResult: NSManagedObject {
         var fetchingID = ""
         if let actualID = uniqueID {
             fetchingID = actualID
