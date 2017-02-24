@@ -76,7 +76,7 @@ class FetchNoteViewController: StackViewController {
         }
         print("currentNoteIdentifier: \(currentNoteIdentifier)")
         
-        let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: currentNoteIdentifier) { (foundNote) in
+        let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: currentNoteIdentifier) { (_, foundNote) in
             guard let updatedNote = foundNote as? Note else {
                 fatalError("how did we not get a note from: \(foundNote.debugDescription)")
             }
@@ -97,7 +97,7 @@ class FetchNoteViewController: StackViewController {
     
     func createAndFetchButtonPressed(sender: UIButton) {
         let newNoteIdentifier = UUID().uuidString
-        let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (foundNote) in
+        let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (_, foundNote) in
             guard let updatedNote = foundNote as? Note else {
                 fatalError("how did we not get a note from: \(foundNote.debugDescription)")
             }
@@ -114,7 +114,7 @@ class FetchNoteViewController: StackViewController {
         
         print("fetchedNote: \(fetchedNote.debugDescription)")
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
-            let fetchedAgain: Note = TestDataController.current.createOrUpdate(with: newNoteIdentifier, and: { (foundNote) in
+            let fetchedAgain: Note = TestDataController.current.createOrUpdate(with: newNoteIdentifier, and: { (_, foundNote) in
                 guard let updatedNote = foundNote as? Note else {
                     fatalError("how did we not get a note from: \(foundNote.debugDescription)")
                 }
@@ -130,7 +130,7 @@ class FetchNoteViewController: StackViewController {
     
     func createAndFetchButtonPressedAgain(sender: UIButton) {
         let newNoteIdentifier = UUID().uuidString
-        let fetchedNote: Note = TestDataController.current.createOrUpdate(with: newNoteIdentifier, and: { (foundNote) in
+        let fetchedNote: Note = TestDataController.current.createOrUpdate(with: newNoteIdentifier, and: { (_, foundNote) in
             guard let updatedNote = foundNote as? Note else {
                 fatalError("how did we not get a note from: \(foundNote.debugDescription)")
             }
@@ -147,7 +147,7 @@ class FetchNoteViewController: StackViewController {
         
         print("fetchedNote: \(fetchedNote.debugDescription)")
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
-            let fetchedAgain: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (foundNote) in
+            let fetchedAgain: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (_, foundNote) in
                 guard let updatedNote = foundNote as? Note else {
                     fatalError("how did we not get a note from: \(foundNote.debugDescription)")
                 }

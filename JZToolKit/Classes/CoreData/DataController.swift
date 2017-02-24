@@ -148,7 +148,7 @@ open class DataController: NSObject {
         return finalObject
     }
     
-    public typealias UpdateResult = (NSFetchRequestResult) throws -> ()
+    public typealias UpdateResult = (Bool, NSFetchRequestResult) throws -> ()
     
     internal func fetchResult<NSFetchRequestResult: UniqueObject where NSFetchRequestResult: NSManagedObject>(in context: NSManagedObjectContext? = nil, with uniqueID: String, shouldCreateIfNil createObject: Bool, and update: UpdateResult? = nil) -> NSFetchRequestResult? {
 //        print("\(#function) uniqueID: \(uniqueID) with createObject: \(createObject)")
@@ -170,13 +170,15 @@ open class DataController: NSObject {
                 let results = try fetchRequest.execute()
                 assert(results.count <= 1)
                 finalObject = results.first
+                var createdObject = false
                 if createObject && (finalObject == nil) {
+                    createdObject = true
 //                    print("\(#function) fetch uniqueID: \(uniqueID) create object")
                     finalObject = NSFetchRequestResult.init(context: context!)
                     finalObject?.uniqueID = uniqueID // don't forget to set the uniqueID
                 }
 //                print("\(#function) fetch uniqueID: \(uniqueID) got object")
-                try update?(finalObject!)
+                try update?(createdObject, finalObject!)
 //                print("\(#function) fetch uniqueID: \(uniqueID) after block")
             } catch {
                 fatalError(error.localizedDescription)
