@@ -16,8 +16,13 @@ public protocol UniqueObject: NSObjectProtocol {
 }
 
 @objc
-public protocol NamedUniqueObject: UniqueObject {
+public protocol NamedObject: NSObjectProtocol {
     @objc var name: String? { get set }
+}
+
+@objc
+public protocol NamedUniqueObject: UniqueObject, NamedObject {
+    
 }
 
 
