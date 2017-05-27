@@ -2,6 +2,8 @@ project 'Example/JZToolkit'
 workspace 'JZToolKit'
 use_frameworks!
 
+platform :ios, '10.0'
+
 target 'JZToolKit_Example' do
   pod 'JZToolKit', :path => '.'
   pod 'JZToolKit/Experimental', :path => '.'

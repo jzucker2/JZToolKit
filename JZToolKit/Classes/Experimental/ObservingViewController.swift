@@ -42,7 +42,7 @@ class ObservingViewController: ToolKitViewController, Observer {
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        print("self: \(self.debugDescription) \(#function) context: \(context)")
+//        print("self: \(self.debugDescription) \(#function) context: \(context)")
         if context == &kvoContext {
             guard let observingKeyPaths = type(of: self).observerResponses else {
                 print("No observing Key Paths exist")
