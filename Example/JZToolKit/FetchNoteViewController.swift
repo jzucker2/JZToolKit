@@ -78,7 +78,7 @@ class FetchNoteViewController: StackViewController {
         
         let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: currentNoteIdentifier) { (_, foundNote) in
             guard let updatedNote = foundNote as? Note else {
-                fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+                fatalError("how did we not get a note from fetched note")
             }
             print("originalNote: \(updatedNote.debugDescription)")
             guard let oldText = updatedNote.text else {
@@ -99,7 +99,7 @@ class FetchNoteViewController: StackViewController {
         let newNoteIdentifier = UUID().uuidString
         let fetchedNote: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (_, foundNote) in
             guard let updatedNote = foundNote as? Note else {
-                fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+                fatalError("how did we not get a note from fetched note")
             }
             print("originalNote: \(updatedNote.debugDescription)")
             updatedNote.name = "New note!!"
@@ -116,7 +116,7 @@ class FetchNoteViewController: StackViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
             let fetchedAgain: Note = TestDataController.current.createOrUpdate(with: newNoteIdentifier, and: { (_, foundNote) in
                 guard let updatedNote = foundNote as? Note else {
-                    fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+                    fatalError("how did we not get a note from fetched note")
                 }
                 print("originalNote: \(updatedNote.debugDescription)")
                 guard let oldText = updatedNote.text else {
@@ -132,7 +132,7 @@ class FetchNoteViewController: StackViewController {
         let newNoteIdentifier = UUID().uuidString
         let fetchedNote: Note = TestDataController.current.createOrUpdate(with: newNoteIdentifier, and: { (_, foundNote) in
             guard let updatedNote = foundNote as? Note else {
-                fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+                fatalError("how did we not get a note from fetched note")
             }
             print("originalNote: \(updatedNote.debugDescription)")
             updatedNote.name = "New note!!"
@@ -149,7 +149,7 @@ class FetchNoteViewController: StackViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
             let fetchedAgain: Note = TestDataController.current.createOrUpdate(in: TestDataController.current.viewContext, with: newNoteIdentifier, and: { (_, foundNote) in
                 guard let updatedNote = foundNote as? Note else {
-                    fatalError("how did we not get a note from: \(foundNote.debugDescription)")
+                    fatalError("how did we not get a note from fetched note")
                 }
                 print("originalNote: \(updatedNote.debugDescription)")
                 guard let oldText = updatedNote.text else {
