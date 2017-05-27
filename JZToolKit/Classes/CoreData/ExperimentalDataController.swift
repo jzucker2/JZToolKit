@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-public class ExperimentalDataController: NSObject {
+open class ExperimentalDataController: NSObject {
     
     public var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
