@@ -23,7 +23,7 @@ class TestDataController: DataController {
     func createNote(in context: NSManagedObjectContext?, with name: String, and text: String?) -> Note {
         let createdNote: Note = createOrUpdate(in: context) { (_, fetchedNote) in
             guard let updatedNote = fetchedNote as? Note else {
-                fatalError("how did we not get a note from: \(fetchedNote.debugDescription)")
+                fatalError("how did we not get a note from fetched note")
             }
             updatedNote.name = name
             updatedNote.text = text
